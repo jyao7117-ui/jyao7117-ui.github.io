@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JANE | 简玉瑶 — 品牌策略 & 视觉设计</title>
+    <meta name="description" content="Jane (简玉瑶) — 视觉传达 × 品牌策略 × 跨文化传播">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#FFFFFF;--bg-alt:#F5F5F3;--text-primary:#111111;--text-secondary:#666666;--text-tertiary:#999999;--accent:#2B5CE6;--border:#E5E5E3;--font-en:'Inter',sans-serif;--font-cn:'PingFang SC','Microsoft YaHei','Inter',sans-serif}
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth;font-size:16px}
+        body{font-family:var(--font-cn);background-color:var(--bg);color:var(--text-primary);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+        a{color:inherit;text-decoration:none}
+        .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.25,.1,.25,1),transform .8s cubic-bezier(.25,.1,.25,1)}
+        .reveal.on{opacity:1;transform:translateY(0)}
+        .reveal-delay-1{transition-delay:.1s}.reveal-delay-2{transition-delay:.2s}.reveal-delay-3{transition-delay:.3s}.reveal-delay-4{transition-delay:.4s}
+        .nav{position:fixed;top:0;left:0;width:100%;z-index:1000;padding:0 48px;height:72px;display:flex;align-items:center;justify-content:space-between;transition:background-color .4s,backdrop-filter .4s,box-shadow .4s}
+        .nav.scrolled{background-color:rgba(255,255,255,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--border)}
+        .nav-logo{font-family:var(--font-en);font-weight:900;font-size:1.25rem;letter-spacing:.15em;color:var(--text-primary)}
+        .nav-links{display:flex;gap:40px;list-style:none}
+        .nav-links a{font-family:var(--font-en);font-size:.8125rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-secondary);transition:color .3s}
+        .nav-links a:hover{color:var(--accent)}
+        .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none}
+        .hamburger span{display:block;width:22px;height:1.5px;background:var(--text-primary);transition:transform .3s,opacity .3s}
+        .hamburger.active span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+        .hamburger.active span:nth-child(2){opacity:0}
+        .hamburger.active span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+        .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 24px 80px;position:relative}
+        .hero-cn-name{font-family:var(--font-cn);font-size:clamp(1rem,2vw,1.375rem);font-weight:300;letter-spacing:.3em;color:var(--text-tertiary);margin-bottom:16px}
+        .hero-name{font-family:var(--font-en);font-size:clamp(64px,15vw,180px);font-weight:900;letter-spacing:.04em;line-height:.95;color:var(--text-primary)}
+        .hero-tagline{margin-top:32px;font-size:clamp(.875rem,1.5vw,1.125rem);font-weight:400;color:var(--text-secondary);letter-spacing:.12em}
+        .hero-sub{margin-top:12px;font-size:clamp(.8125rem,1.2vw,.9375rem);font-weight:300;color:var(--text-tertiary);letter-spacing:.06em}
+        .scroll-indicator{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px}
+        .scroll-indicator span{font-size:.6875rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-tertiary);font-family:var(--font-en)}
+        .scroll-indicator .line{width:1px;height:48px;background:var(--text-tertiary);position:relative;overflow:hidden}
+        .scroll-indicator .line::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--text-primary);animation:scrollLine 2s ease-in-out infinite}
+        @keyframes scrollLine{0%{top:-100%}50%{top:0}100%{top:100%}}
+        .section{padding:120px 48px}
+        .section-label{font-family:var(--font-en);font-size:.6875rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+        .section-title{font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;line-height:1.3;color:var(--text-primary);margin-bottom:64px}
+
+        .about{background:var(--bg)}
+        .about-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+        .about-highlight{font-size:clamp(1.25rem,2.5vw,1.625rem);font-weight:600;line-height:1.6;color:var(--text-primary);margin-bottom:32px;padding-left:20px;border-left:3px solid var(--accent)}
+        .about-text p{font-size:.9375rem;color:var(--text-secondary);line-height:1.9;margin-bottom:20px}
+        .capability-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px}
+        .capability-card{background:var(--bg-alt);border-radius:12px;padding:24px 20px}
+        .capability-card h4{font-size:.875rem;font-weight:700;color:var(--text-primary);margin-bottom:12px}
+        .capability-card p{font-size:.75rem;color:var(--text-tertiary);line-height:1.7}
+        .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+        .stat-item{text-align:center;padding:20px 12px;border:1px solid var(--border);border-radius:12px}
+        .stat-item .stat-value{font-family:var(--font-en);font-size:1.25rem;font-weight:800;color:var(--text-primary);margin-bottom:4px}
+        .stat-item .stat-label{font-size:.75rem;color:var(--text-tertiary)}
+        .cases{background:var(--bg-alt)}
+        .cases-inner{max-width:1200px;margin:0 auto}
+        .case-item{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;padding:80px 0;position:relative}
+        .case-item+.case-item{border-top:1px solid var(--border)}
+        .case-number{position:absolute;top:40px;left:-16px;font-family:var(--font-en);font-size:clamp(80px,10vw,140px);font-weight:900;color:var(--text-primary);opacity:.03;line-height:1;pointer-events:none;user-select:none}
+        .case-item.reverse{direction:rtl}
+        .case-item.reverse>*{direction:ltr}
+        .case-image{width:100%;aspect-ratio:4/3;border-radius:16px;overflow:hidden}
+        .case-image-placeholder{width:100%;height:100%;border-radius:16px}
+        .case-tag{display:inline-block;font-size:.75rem;font-weight:600;color:var(--accent);background:rgba(43,92,230,.06);padding:6px 14px;border-radius:20px;margin-bottom:16px;letter-spacing:.04em;border:1px solid rgba(43,92,230,.12)}
+        .case-title{font-size:clamp(1.5rem,3vw,2rem);font-weight:800;color:var(--text-primary);margin-bottom:8px;line-height:1.3}
+        .case-subtitle{font-size:.9375rem;font-style:italic;color:var(--text-tertiary);margin-bottom:20px}
+        .case-desc{font-size:.875rem;color:var(--text-secondary);line-height:1.9;margin-bottom:24px}
+        .case-highlights{display:flex;flex-wrap:wrap;gap:8px}
+        .case-highlights span{font-size:.6875rem;font-weight:600;letter-spacing:.02em;color:var(--text-secondary);background:rgba(255,255,255,.5);padding:5px 12px;border-radius:16px;border:1px solid var(--border)}
+        .case-note{font-size:.75rem;color:var(--text-tertiary);font-style:italic;margin-top:12px}
+        .divider{display:flex;justify-content:center;padding:0 48px}
+        .divider-line{width:48px;height:1px;background:var(--border)}
+        .gallery{background:var(--bg)}
+        .gallery-inner{max-width:1200px;margin:0 auto}
+        .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+        .gallery-item{aspect-ratio:1/1;border-radius:12px;position:relative;overflow:hidden;cursor:pointer}
+        .gallery-item-bg{width:100%;height:100%;transition:transform .5s cubic-bezier(.25,.1,.25,1)}
+        .gallery-item:hover .gallery-item-bg{transform:scale(1.05)}
+        .gallery-item-label{position:absolute;bottom:0;left:0;right:0;padding:20px 16px;background:linear-gradient(to top,rgba(43,92,230,.55) 0%,transparent 100%);opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
+        .gallery-item:hover .gallery-item-label{opacity:1;transform:translateY(0)}
+        .gallery-item-label span{font-size:.75rem;font-weight:600;color:#fff;letter-spacing:.03em}
+        .contact{background:var(--bg-alt);text-align:center;padding:140px 48px}
+        .contact-inner{max-width:800px;margin:0 auto}
+        .contact-title{font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;color:var(--text-primary);margin-bottom:64px}
+        .contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-bottom:64px}
+        .contact-item{padding:24px}
+        .contact-item-label{font-family:var(--font-en);font-size:.6875rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+        .contact-item-value{font-size:.9375rem;color:var(--text-primary);font-weight:500}
+        .contact-tagline{font-size:clamp(1rem,2vw,1.25rem);color:var(--text-secondary);font-weight:300;line-height:1.8}
+        .footer{padding:40px 48px;text-align:center;border-top:1px solid var(--border)}
+        .footer p{font-size:.75rem;color:var(--text-tertiary);font-family:var(--font-en);letter-spacing:.04em}
+        @media(max-width:1024px){.section{padding:96px 32px}.about-grid{gap:48px}.case-item{gap:40px;padding:64px 0}.gallery-grid{grid-template-columns:repeat(3,1fr)}}
+        @media(max-width:768px){.nav{padding:0 24px}.hamburger{display:flex}.nav-links{position:fixed;top:0;right:0;width:260px;height:100vh;background:var(--bg);flex-direction:column;justify-content:center;align-items:center;gap:32px;transform:translateX(100%);transition:transform .4s cubic-bezier(.25,.1,.25,1);box-shadow:-8px 0 32px rgba(0,0,0,.06)}.nav-links.active{transform:translateX(0)}.section{padding:80px 20px}.hero{padding:100px 20px 60px}.about-grid{grid-template-columns:1fr;gap:48px}.capability-grid{grid-template-columns:1fr}.case-item,.case-item.reverse{grid-template-columns:1fr;gap:32px;padding:48px 0;direction:ltr}.gallery-grid{grid-template-columns:repeat(2,1fr)}.contact{padding:80px 20px}.contact-grid{grid-template-columns:1fr;gap:16px}.footer{padding:32px 20px}}
+    </style>
+</head>
+<body>
+    <!-- NAV -->
+    <nav class="nav" id="nav">
+        <a href="#" class="nav-logo">JANE</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">About</a></li>
+            <li><a href="#cases">Work</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <p class="hero-cn-name">简玉瑶</p>
+        <h1 class="hero-name">JANE</h1>
+        <p class="hero-tagline">品牌策略 × 视觉传达 × 跨文化传播</p>
+        <p class="hero-sub">用设计思维解决传播问题</p>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="line"></div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section about" id="about">
+        <div class="section-label reveal">ABOUT</div>
+        <div class="section-title reveal reveal-delay-1">关于我</div>
+        <div class="about-grid">
+            <div class="about-left">
+                <p class="about-highlight reveal">我用设计的语言，讲策略的故事。</p>
+                <div class="about-text reveal reveal-delay-1">
+                    <p>视觉传达本科 + 传播学硕士的双重学术背景，让我天然站在了设计与策略的交叉点上。我理解视觉的力量，更理解传播的逻辑。</p>
+                    <p>相比纯粹的视觉执行，我更着迷于"为什么做"和"为谁做"——从洞察出发，用策略框架指导设计决策，让每一个视觉元素都服务于品牌目标。我的目标是加入奥美这样的国际广告公司，从事策略或客户管理方向的工作，用设计思维解决传播问题。</p>
+                </div>
+            </div>
+            <div class="about-right">
+                <div class="capability-grid reveal">
+                    <div class="capability-card">
+                        <h4>策略与规划</h4>
+                        <p>品牌全案 / 活动策划 / 传播方案</p>
+                    </div>
+                    <div class="capability-card">
+                        <h4>设计与执行</h4>
+                        <p>VIS / UI / 海报 / 包装 / 物料</p>
+                    </div>
+                    <div class="capability-card">
+                        <h4>数字营销</h4>
+                        <p>小红书运营 / 视频剪辑 / 社交媒体</p>
+                    </div>
+                </div>
+                <div class="stats-row reveal reveal-delay-2">
+                    <div class="stat-item">
+                        <div class="stat-value">3.78</div>
+                        <div class="stat-label">GPA 年级第一</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">50+</div>
+                        <div class="stat-label">品牌服务</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">央企</div>
+                        <div class="stat-label">项目经验</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CASES -->
+    <section class="section cases" id="cases">
+        <div class="cases-inner">
+            <div class="section-label reveal">SELECTED WORK</div>
+            <div class="section-title reveal reveal-delay-1">精选案例</div>
+            <!-- Case 01 -->
+            <div class="case-item reveal">
+                <span class="case-number">01</span>
+                <div class="case-image">
+                    <div class="case-image-placeholder" style="background:linear-gradient(135deg,#3F2E22,#8B7355)"></div>
+                </div>
+                <div class="case-text">
+                    <div class="case-tag">毕业设计 · 品牌全案</div>
+                    <h3 class="case-title">一物 THE ONE</h3>
+                    <p class="case-subtitle">从一个洞察到一个完整品牌生态</p>
+                    <p class="case-desc">以"归自然 回本我"为核心洞察，构建涵盖品牌策略、活动策划、App设计、视觉识别与产品包装的完整品牌生态系统。从社会现状调研出发，建立三级递进策略框架，策划6场跨越10天的系列活动，并完成从Logo到包装的全链路视觉落地。</p>
+                    <div class="case-highlights">
+                        <span>三级品牌策略框架</span>
+                        <span>6场系列活动策划</span>
+                        <span>App UI设计</span>
+                        <span>VIS+包装体系</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case 02 -->
+            <div class="case-item reverse reveal">
+                <span class="case-number">02</span>
+                <div class="case-image">
+                    <div class="case-image-placeholder" style="background:linear-gradient(135deg,#253320,#6B8F5E)"></div>
+                </div>
+                <div class="case-text">
+                    <div class="case-tag">有机蔬菜品牌 · 营销策划</div>
+                    <h3 class="case-title">耕梦园 DREAM GARDEN</h3>
+                    <p class="case-subtitle">用数据说话的全链路营销策划</p>
+                    <p class="case-desc">基于消费者问卷调研数据与PEST宏观环境分析，为有机蔬菜品牌制定从大连到全国的三阶段品牌战略。规划涵盖小红书内容营销、共享厨房直播、便利店合作、Keep联名打卡及公益助农的多渠道推广方案。</p>
+                    <div class="case-highlights">
+                        <span>消费者问卷调研</span>
+                        <span>PEST宏观分析</span>
+                        <span>三阶段品牌战略</span>
+                        <span>多渠道推广方案</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case 03 -->
+            <div class="case-item reveal">
+                <span class="case-number">03</span>
+                <div class="case-image">
+                    <div class="case-image-placeholder" style="background:linear-gradient(135deg,#C4763A,#E8A84C)"></div>
+                </div>
+                <div class="case-text">
+                    <div class="case-tag">校园营销 · 真实执行</div>
+                    <h3 class="case-title">可比克</h3>
+                    <p class="case-subtitle">一场真实校园营销从0到1</p>
+                    <p class="case-desc">围绕可比克"轻负担，放开吃"品牌主题，结合毕业季情绪洞察，策划并执行"可比克陪你轻负担跨过毕业季"校园快闪活动。从创意策划、场地设计到线上线下联动执行，两天触达500-600人次，获得真实传播数据。</p>
+                    <div class="case-highlights">
+                        <span>主题洞察与创意策划</span>
+                        <span>4×6m快闪场地设计</span>
+                        <span>线上线下联动执行</span>
+                        <span>数据复盘500-600人参与</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case 04 -->
+            <div class="case-item reverse reveal">
+                <span class="case-number">04</span>
+                <div class="case-image">
+                    <div class="case-image-placeholder" style="background:linear-gradient(135deg,#2A3F54,#5B8BA0)"></div>
+                </div>
+                <div class="case-text">
+                    <div class="case-tag">央企项目 · 设计+活动落地</div>
+                    <h3 class="case-title">国际青少年共创营</h3>
+                    <p class="case-subtitle">央企项目的全链路设计与执行</p>
+                    <p class="case-desc">负责央企国际青少年共创营项目的全部视觉设计工作，并辅助主导项目活动落地执行。涵盖从概念到物料的完整设计链路，以及活动现场的协调与执行。</p>
+                    <div class="case-highlights">
+                        <span>央企项目背景</span>
+                        <span>全部视觉设计</span>
+                        <span>活动落地辅助</span>
+                    </div>
+                    <p class="case-note">作品整理中，内容持续更新</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIVIDER -->
+    <div class="divider"><div class="divider-line"></div></div>
+    <!-- GALLERY -->
+    <section class="section gallery" id="gallery">
+        <div class="gallery-inner">
+            <div class="section-label reveal">OTHER WORKS</div>
+            <div class="section-title reveal reveal-delay-1">更多作品</div>
+            <div class="gallery-grid">
+                <div class="gallery-item reveal">
+                    <div class="gallery-item-bg" style="background:linear-gradient(135deg,#9D8063,#7A8B6F)"></div>
+                    <div class="gallery-item-label"><span>寻境 FIND YOUR REALM</span></div>
+                </div>
+                <div class="gallery-item reveal reveal-delay-1">
+                    <div class="gallery-item-bg" style="background:linear-gradient(135deg,#2A1A1A,#8B3A2A)"></div>
+                    <div class="gallery-item-label"><span>极客谈鞋 SNEAKER GEEK</span></div>
+                </div>
+                <div class="gallery-item reveal reveal-delay-2">
+                    <div class="gallery-item-bg" style="background:linear-gradient(135deg,#1B1A18,#615348)"></div>
+                    <div class="gallery-item-label"><span>观海 GUANHAI</span></div>
+                </div>
+                <div class="gallery-item reveal reveal-delay-3">
+                    <div class="gallery-item-bg" style="background:linear-gradient(135deg,#6B2020,#C4963A)"></div>
+                    <div class="gallery-item-label"><span>傩戏传播企划</span></div>
+                </div>
+                <div class="gallery-item reveal">
+                    <div class="gallery-item-bg" style="background:linear-gradient(135deg,#2D5016,#8DB580)"></div>
+                    <div class="gallery-item-label"><span>Mountain Journey</span></div>
+                </div>
+                <div class="gallery-item reveal reveal-delay-1">
+                    <div class="gallery-item-bg" style="background:linear-gradient(135deg,#2E7D32,#E53935)"></div>
+                    <div class="gallery-item-label"><span>冲鸭体育 GOYA SPORTS</span></div>
+                </div>
+                <div class="gallery-item reveal reveal-delay-2">
+                    <div class="gallery-item-bg" style="background:linear-gradient(135deg,#1976D2,#81D4FA)"></div>
+                    <div class="gallery-item-label"><span>Sunshine Island 三山岛</span></div>
+                </div>
+                <div class="gallery-item reveal reveal-delay-3">
+                    <div class="gallery-item-bg" style="background:linear-gradient(135deg,#8B7355,#EA6E3B)"></div>
+                    <div class="gallery-item-label"><span>皮皮灰面包</span></div>
+                </div>
+                <div class="gallery-item reveal">
+                    <div class="gallery-item-bg" style="background:linear-gradient(135deg,#A08060,#6B5540)"></div>
+                    <div class="gallery-item-label"><span>宠屿星球</span></div>
+                </div>
+                <div class="gallery-item reveal reveal-delay-1">
+                    <div class="gallery-item-bg" style="background:linear-gradient(135deg,#6A1B9A,#FFD54F)"></div>
+                    <div class="gallery-item-label"><span>WAGALA飞盘队</span></div>
+                </div>
+                <div class="gallery-item reveal reveal-delay-2">
+                    <div class="gallery-item-bg" style="background:linear-gradient(135deg,#1A1A1A,#666666)"></div>
+                    <div class="gallery-item-label"><span>八段锦海报</span></div>
+                </div>
+                <div class="gallery-item reveal reveal-delay-3">
+                    <div class="gallery-item-bg" style="background:linear-gradient(135deg,#1565C0,#42A5F5)"></div>
+                    <div class="gallery-item-label"><span>信息可视化设计</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+        <div class="contact-inner">
+            <h2 class="contact-title reveal">联系我</h2>
+            <div class="contact-grid reveal reveal-delay-1">
+                <div class="contact-item">
+                    <div class="contact-item-label">EMAIL</div>
+                    <div class="contact-item-value">jyao716@qq.com</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-label">WECHAT</div>
+                    <div class="contact-item-value">Janesok16</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-label">PHONE</div>
+                    <div class="contact-item-value">15196385203</div>
+                </div>
+            </div>
+            <p class="contact-tagline reveal reveal-delay-2">期待与你一起，创造有影响力的品牌。</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Jane. All rights reserved.</p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        (function() {
+            /* Nav scroll effect */
+            var nav = document.getElementById('nav');
+            function checkScroll() {
+                if (window.scrollY > 100) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            }
+            window.addEventListener('scroll', checkScroll, { passive: true });
+            checkScroll();
+
+            /* Scroll reveal */
+            var reveals = document.querySelectorAll('.reveal');
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('on');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            reveals.forEach(function(el) { observer.observe(el); });
+
+            /* Mobile nav toggle */
+            var hamburger = document.getElementById('hamburger');
+            var navLinks = document.getElementById('navLinks');
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+
+            /* Close mobile nav on link click */
+            navLinks.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
