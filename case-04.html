@@ -62,6 +62,13 @@ a{color:inherit;text-decoration:none}
 .footer{padding:24px 48px;text-align:center;border-top:1px solid var(--gray)}
 .footer p{font-size:.6875rem;color:var(--mid);font-family:var(--font-en);letter-spacing:.04em}
 @media(max-width:768px){.nav{padding:20px 24px}.case-hero{padding:120px 24px 60px}.section-block{padding:60px 24px}.content-grid{grid-template-columns:1fr;gap:40px}.stats-grid{grid-template-columns:repeat(2,1fr)}}
+
+.photo-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:40px}
+.photo-gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px;cursor:pointer;transition:transform .3s}
+.photo-gallery img:hover{transform:scale(1.02)}
+.photo-gallery-wide{grid-column:span 2}
+@media(max-width:768px){.photo-gallery{grid-template-columns:repeat(2,1fr)}.photo-gallery-wide{grid-column:span 1}}
+
 </style>
 </head>
 <body>
@@ -101,31 +108,65 @@ a{color:inherit;text-decoration:none}
 </div>
 
 <div class="section-block section-white">
-<div class="section-label reveal">STRATEGY</div>
-<div class="section-title reveal">策略框架</div>
-<p class="section-text reveal">基于洞察建立三级递进策略框架，从品牌认知到情感连接再到行为转化，构建完整的品牌体验路径。</p>
+<div class="section-label reveal">ABOUT</div>
+<div class="section-title reveal">关于项目</div>
+<div class="content-grid">
+<div>
+<p class="section-text reveal">世野·国际青少年共创营（World Vista International Co-Creation Camp）是央企主办的国际青少年交流项目，以"共创让世界多一点美好"为理念，汇聚中美及多国青少年在景德镇进行为期七天的跨文化共创体验。</p>
+<ul class="content-list reveal">
+<li><strong>活动地点</strong>江西景德镇</li>
+<li><strong>参与人数</strong>100+中外青少年</li>
+<li><strong>核心理念</strong>CO-CREATE BETTER WORLD</li>
+<li><strong>活动周期</strong>7天沉浸式体验</li>
+</ul>
+</div>
+<div>
+<img src="images/camp-01.jpg" alt="活动合影" style="width:100%;border-radius:4px">
+</div>
+</div>
+</div>
+
+<div class="section-block section-dark">
+<div class="section-label reveal">CONTENT</div>
+<div class="section-title reveal">三大核心板块</div>
 <div class="timeline">
 <div class="timeline-item reveal">
-<div class="timeline-num">04</div>
+<div class="timeline-num">01</div>
 <div class="timeline-content">
-<h4>品牌认知层</h4>
-<p>建立"一物"品牌视觉识别系统，传递自然、纯粹的品牌调性</p>
+<h4>陶瓷创作 Ceramic Art</h4>
+<p>在景德镇感受千年瓷都文化，亲手创作陶瓷作品，体验匠人精神</p>
 </div>
 </div>
 <div class="timeline-item reveal">
 <div class="timeline-num">02</div>
 <div class="timeline-content">
-<h4>情感连接层</h4>
-<p>策划6场跨越10天的系列活动，让用户在体验中感受品牌理念</p>
+<h4>微电影创作 Microfilm Production</h4>
+<p>用镜头记录旅程，团队协作完成从策划到拍摄的完整微电影创作</p>
 </div>
 </div>
 <div class="timeline-item reveal">
 <div class="timeline-num">03</div>
 <div class="timeline-content">
-<h4>行为转化层</h4>
-<p>通过App设计和产品包装，将品牌体验延伸到日常生活场景</p>
+<h4>世界青年共创市集 World Youth Co-create Market</h4>
+<p>搭建公益市集，展示共创成果，促进跨文化交流与青年公益实践</p>
 </div>
 </div>
+</div>
+</div>
+
+<div class="section-block section-white">
+<div class="section-label reveal">DESIGN</div>
+<div class="section-title reveal">设计展现</div>
+<p class="section-text reveal">负责项目全部视觉设计工作，涵盖品牌主视觉、空间导视、互动展板、活动物料及公众号内容设计。</p>
+<div class="photo-gallery">
+<img src="images/camp-02.jpg" alt="活动现场">
+<img src="images/camp-03.jpg" alt="活动合影" class="photo-gallery-wide">
+<img src="images/camp-04.jpg" alt="集体合影">
+<img src="images/camp-05.jpg" alt="互动现场" class="photo-gallery-wide">
+<img src="images/camp-06.jpg" alt="活动场景">
+<img src="images/camp-07.jpg" alt="户外合影">
+<img src="images/camp-08.jpg" alt="活动记录">
+<img src="images/camp-09.jpg" alt="共创成果" class="photo-gallery-wide">
 </div>
 </div>
 
