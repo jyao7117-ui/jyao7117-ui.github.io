@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>可比克 | 简玉瑶</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--black:#2A2520;--white:#F0EBE3;--gray:#DDD8D0;--dark:#3A3530;--mid:#8A8480;--accent:#2B5CE6;--font-en:'Inter',sans-serif;--font-cn:'PingFang SC','Microsoft YaHei',sans-serif}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-cn);background:var(--white);color:var(--black);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s cubic-bezier(.25,.1,.25,1),transform .7s cubic-bezier(.25,.1,.25,1)}
+.reveal.on{opacity:1;transform:translateY(0)}
+.nav{position:fixed;top:0;left:0;width:100%;z-index:100;padding:28px 48px;display:flex;align-items:center;justify-content:space-between}
+.nav.scrolled{background:rgba(240,235,227,.92);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(0,0,0,.06)}
+.nav-logo{font-family:var(--font-en);font-weight:900;font-size:1.125rem;letter-spacing:.2em}
+.nav-links{display:flex;gap:40px;list-style:none}
+.nav-links a{font-family:var(--font-en);font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);transition:color .3s}
+.nav-links a:hover{color:var(--black)}
+.back-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-en);font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:40px;transition:color .3s}
+.back-link:hover{color:var(--black)}
+.case-hero{padding:160px 48px 80px;background:var(--white)}
+.case-hero-tag{font-family:var(--font-en);font-size:.6875rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.case-hero-title{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;line-height:1.1;margin-bottom:16px}
+.case-hero-sub{font-size:clamp(1rem,1.5vw,1.25rem);color:var(--mid);font-style:italic}
+.case-hero-num{font-family:var(--font-en);font-size:clamp(80px,12vw,200px);font-weight:900;opacity:.04;position:absolute;right:48px;top:120px;line-height:1}
+.section-block{padding:100px 48px}
+.section-dark{background:var(--black);color:var(--white)}
+.section-gray{background:var(--gray);color:var(--black)}
+.section-white{background:var(--white);color:var(--black)}
+.section-label{font-family:var(--font-en);font-size:.6875rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);margin-bottom:40px}
+.section-title{font-size:clamp(1.5rem,3vw,2.25rem);font-weight:800;line-height:1.3;margin-bottom:32px}
+.section-text{font-size:.9375rem;line-height:2;color:var(--mid);max-width:720px}
+.section-dark .section-text{color:rgba(255,255,255,.6)}
+.content-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.content-list{list-style:none;margin-top:24px}
+.content-list li{padding:16px 0;border-bottom:1px solid rgba(0,0,0,.08);font-size:.875rem;line-height:1.7}
+.section-dark .content-list li{border-bottom-color:rgba(255,255,255,.1)}
+.content-list li strong{font-weight:700;display:block;margin-bottom:4px}
+.img-placeholder{width:100%;aspect-ratio:4/3;border-radius:4px;overflow:hidden}
+.img-placeholder div{width:100%;height:100%}
+.timeline{margin-top:32px}
+.timeline-item{display:flex;gap:24px;padding:24px 0;border-bottom:1px solid rgba(0,0,0,.08)}
+.section-dark .timeline-item{border-bottom-color:rgba(255,255,255,.1)}
+.timeline-num{font-family:var(--font-en);font-size:1.5rem;font-weight:900;color:var(--accent);min-width:48px}
+.timeline-content h4{font-size:1rem;font-weight:700;margin-bottom:4px}
+.timeline-content p{font-size:.8125rem;color:var(--mid);line-height:1.7}
+.section-dark .timeline-content p{color:rgba(255,255,255,.5)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:48px}
+.stat-item{padding:32px;text-align:center;border-top:3px solid var(--accent)}
+.stat-value{font-family:var(--font-en);font-size:clamp(1.5rem,3vw,2rem);font-weight:900;margin-bottom:4px}
+.stat-label{font-size:.6875rem;color:var(--mid)}
+.section-dark .stat-label{color:rgba(255,255,255,.4)}
+.cta{text-align:center;padding:120px 48px}
+.cta-text{font-size:clamp(1rem,2vw,1.25rem);color:var(--mid);margin-bottom:32px}
+.cta-btn{display:inline-block;font-family:var(--font-en);font-size:.875rem;font-weight:600;letter-spacing:.1em;padding:16px 40px;border:2px solid var(--black);color:var(--black);transition:all .3s}
+.cta-btn:hover{background:var(--black);color:var(--white)}
+.footer{padding:24px 48px;text-align:center;border-top:1px solid var(--gray)}
+.footer p{font-size:.6875rem;color:var(--mid);font-family:var(--font-en);letter-spacing:.04em}
+@media(max-width:768px){.nav{padding:20px 24px}.case-hero{padding:120px 24px 60px}.section-block{padding:60px 24px}.content-grid{grid-template-columns:1fr;gap:40px}.stats-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+<a href="../index.html" class="nav-logo">JANE</a>
+<ul class="nav-links">
+<li><a href="../index.html#about">About</a></li>
+<li><a href="../index.html#cases">Work</a></li>
+<li><a href="../index.html#contact">Contact</a></li>
+</ul>
+</nav>
+
+<section class="case-hero" style="position:relative">
+<a href="../index.html#cases" class="back-link reveal">&larr; Back to Work</a>
+<div class="case-hero-tag reveal">校园营销 &middot; 真实执行</div>
+<h1 class="case-hero-title reveal">可比克</h1>
+<p class="case-hero-sub reveal">一场真实校园营销从0到1</p>
+<div class="case-hero-num">03</div>
+</section>
+
+<div class="section-block section-dark">
+<div class="section-label reveal">INSIGHT</div>
+<div class="section-title reveal">洞察</div>
+<div class="content-grid">
+<div>
+<p class="section-text reveal">毕业季是大学生情绪最敏感的时刻——既有对未来的期待，也有对压力的焦虑。可比克"轻负担，放开吃"的品牌主题，恰好可以成为情感出口。</p>
+<ul class="content-list reveal">
+<li><strong>情绪洞察</strong>毕业季=压力季，需要一个"轻一下"的理由</li>
+<li><strong>品牌契合</strong>"轻负担"既是产品卖点，也是情感共鸣点</li>
+<li><strong>场景选择</strong>校园快闪，制造即时体验与社交传播</li>
+</ul>
+</div>
+<div class="img-placeholder reveal">
+<div style="background:linear-gradient(135deg,#8A6030,#C4963A)"></div>
+</div>
+</div>
+</div>
+
+<div class="section-block section-white">
+<div class="section-label reveal">STRATEGY</div>
+<div class="section-title reveal">策略框架</div>
+<p class="section-text reveal">基于洞察建立三级递进策略框架，从品牌认知到情感连接再到行为转化，构建完整的品牌体验路径。</p>
+<div class="timeline">
+<div class="timeline-item reveal">
+<div class="timeline-num">03</div>
+<div class="timeline-content">
+<h4>品牌认知层</h4>
+<p>建立"一物"品牌视觉识别系统，传递自然、纯粹的品牌调性</p>
+</div>
+</div>
+<div class="timeline-item reveal">
+<div class="timeline-num">02</div>
+<div class="timeline-content">
+<h4>情感连接层</h4>
+<p>策划6场跨越10天的系列活动，让用户在体验中感受品牌理念</p>
+</div>
+</div>
+<div class="timeline-item reveal">
+<div class="timeline-num">03</div>
+<div class="timeline-content">
+<h4>行为转化层</h4>
+<p>通过App设计和产品包装，将品牌体验延伸到日常生活场景</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="section-block section-gray">
+<div class="section-label reveal">EXECUTION</div>
+<div class="section-title reveal">执行落地</div>
+<div class="content-grid">
+<div>
+<p class="section-text reveal">从创意到落地，两天活动触达500-600人次，获得真实的传播数据和用户反馈。</p>
+<ul class="content-list reveal">
+<li><strong>场地搭建</strong>4×6m快闪空间设计与搭建</li>
+<li><strong>互动设计</strong>拍照打卡、试吃体验、毕业寄语墙</li>
+<li><strong>线上执行</strong>小红书话题运营、朋友圈裂变</li>
+<li><strong>数据复盘</strong>参与人数、互动率、传播数据完整追踪</li>
+</ul>
+</div>
+<div class="img-placeholder reveal">
+<div style="background:linear-gradient(135deg,#7A5A30,#B4863A)"></div>
+</div>
+</div>
+</div>
+
+<div class="section-block section-dark">
+<div class="stats-grid">
+<div class="stat-item reveal">
+<div class="stat-value">500+</div>
+<div class="stat-label">触达人次</div>
+</div>
+<div class="stat-item reveal">
+<div class="stat-value">2</div>
+<div class="stat-label">天活动周期</div>
+</div>
+<div class="stat-item reveal">
+<div class="stat-value">4×6m</div>
+<div class="stat-label">快闪空间</div>
+</div>
+<div class="stat-item reveal">
+<div class="stat-value">0→1</div>
+<div class="stat-label">从策划到执行</div>
+</div>
+</div>
+</div>
+
+<div class="cta">
+<p class="cta-text reveal">想看更多案例？</p>
+<a href="../index.html#cases" class="cta-btn reveal">Back to Work</a>
+</div>
+
+<footer class="footer">
+<p>&copy; 2026 Jane. All rights reserved.</p>
+</footer>
+
+<script>
+(function(){
+var nav=document.getElementById('nav');
+function checkScroll(){if(window.scrollY>100){nav.classList.add('scrolled')}else{nav.classList.remove('scrolled')}}
+window.addEventListener('scroll',checkScroll,{passive:true});checkScroll();
+var reveals=document.querySelectorAll('.reveal');
+var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('on')}})},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+reveals.forEach(function(el){observer.observe(el)});
+})();
+</script>
+</body>
+</html>
