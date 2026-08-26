@@ -92,6 +92,20 @@ a{color:inherit;text-decoration:none}
 
 .case-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-en);font-size:.8125rem;font-weight:600;letter-spacing:.08em;color:var(--accent);margin-top:24px;transition:all .3s;border-bottom:1px solid transparent}
 .case-link:hover{border-bottom-color:var(--accent)}
+
+.about-intro{padding:100px 48px;background:var(--white)}
+.about-intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;max-width:1200px;margin:0 auto}
+.about-intro-cn{font-size:clamp(1.125rem,2vw,1.5rem);font-weight:700;line-height:1.8;color:var(--black);margin-bottom:16px}
+.about-intro-en{font-size:.875rem;color:var(--mid);line-height:1.8;font-style:italic}
+.whatcanido{padding:100px 48px;background:var(--black);color:var(--white)}
+.whatcanido-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;max-width:1200px;margin:0 auto}
+.whatcanido-title{font-family:var(--font-en);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;line-height:1.1;margin-bottom:32px}
+.whatcanido-desc{font-size:.9375rem;line-height:1.9;color:rgba(255,255,255,.6);margin-bottom:20px}
+.skill-item{display:flex;gap:24px;padding:32px 0;border-top:1px solid rgba(255,255,255,.12)}
+.skill-num{font-family:var(--font-en);font-size:1.5rem;font-weight:900;color:var(--accent);min-width:48px}
+.skill-content h3{font-size:1.125rem;font-weight:700;margin-bottom:8px}
+.skill-content p{font-size:.8125rem;color:rgba(255,255,255,.5);line-height:1.6}
+@media(max-width:768px){.about-intro-grid,.whatcanido-inner{grid-template-columns:1fr;gap:48px}.about-intro,.whatcanido{padding:60px 24px}}
 </style>
 </head>
 <body>
@@ -114,7 +128,7 @@ a{color:inherit;text-decoration:none}
 </div>
 <div class="hero-bottom">
 <div class="hero-photo">
-<img src="images/cover.png" alt="Jane Portfolio" style="width:100%;height:100%;object-fit:cover">
+<img src="images/portrait.jpg" alt="简玉瑶" style="width:100%;height:100%;object-fit:cover;filter:grayscale(100%)">
 </div>
 <div class="hero-info">
 <div class="hero-cn-name">简玉瑶</div>
@@ -124,48 +138,51 @@ a{color:inherit;text-decoration:none}
 </div>
 </section>
 
-<section class="about-hero" id="about">
-<div class="section-label accent-text reveal">ABOUT</div>
-<div class="about-big reveal">我用设计的语言，<br>讲策略的故事。</div>
+<section class="about-intro" id="about">
+<div class="about-intro-grid">
+<div class="about-intro-left reveal">
+<p class="about-intro-cn">我用设计的语言，讲策略的故事。<br>先想清楚，再"画"出来。</p>
+<p class="about-intro-en">I use the language of design to tell the story of strategy.<br>Think clearly first, then "draw" it out.</p>
+</div>
+<div class="about-intro-right reveal">
+<p class="about-intro-cn">策略思考 × 视觉表达 × 项目落地，<br>让方案长出来。</p>
+<p class="about-intro-en">Strategy thinking × Visual expression × Project execution,<br>let the plan grow.</p>
+</div>
+</div>
 </section>
 
-<div class="about-grid">
-<div class="about-left">
-<p class="about-text">视觉传达本科 + 传播学硕士的双重学术背景，让我天然站在了设计与策略的交叉点上。我理解视觉的力量，更理解传播的逻辑。</p>
-<p class="about-text">相比纯粹的视觉执行，我更着迷于"为什么做"和"为谁做"——从洞察出发，用策略框架指导设计决策，让每一个视觉元素都服务于品牌目标。</p>
-<p class="about-text">目标：加入奥美（Ogilvy），从事策略或客户管理方向的工作。</p>
+<section class="whatcanido" id="skills">
+<div class="whatcanido-inner">
+<div class="whatcanido-left">
+<h2 class="whatcanido-title reveal">WHAT<br>CAN I DO</h2>
+<p class="whatcanido-desc reveal">本科学视觉传达设计，硕士学传播。让我天然站在了设计与策略的交叉点上——我理解视觉的力量，更理解传播的逻辑。相比纯粹的视觉执行，我更着迷于"为什么做"和"为谁做"。</p>
+<p class="whatcanido-desc reveal">目标：加入奥美（Ogilvy），从事策略或客户管理方向的工作，用设计思维解决传播问题。</p>
 </div>
-<div class="about-right">
-<div class="cap-grid">
-<div class="cap-item">
-<h4>策略与规划</h4>
-<p>品牌全案 / 活动策划 / 传播方案</p>
-</div>
-<div class="cap-item">
-<h4>设计与执行</h4>
-<p>VIS / UI / 海报 / 包装 / 物料</p>
-</div>
-<div class="cap-item">
-<h4>数字营销</h4>
-<p>小红书运营 / 视频剪辑 / 社交媒体</p>
+<div class="whatcanido-right">
+<div class="skill-item reveal">
+<div class="skill-num">01</div>
+<div class="skill-content">
+<h3>策略 & 规划</h3>
+<p>品牌全案 / 活动策划 / 传播方案 / 市场调研</p>
 </div>
 </div>
-<div class="stats-bar">
-<div class="stat">
-<div class="stat-num">3.78</div>
-<div class="stat-label">GPA 年级第一</div>
+<div class="skill-item reveal">
+<div class="skill-num">02</div>
+<div class="skill-content">
+<h3>视觉 & 表现</h3>
+<p>VIS / UI / 海报 / 包装 / 物料设计</p>
 </div>
-<div class="stat">
-<div class="stat-num">50+</div>
-<div class="stat-label">品牌服务</div>
 </div>
-<div class="stat">
-<div class="stat-num">央企</div>
-<div class="stat-label">项目经验</div>
+<div class="skill-item reveal">
+<div class="skill-num">03</div>
+<div class="skill-content">
+<h3>媒体 & 传播</h3>
+<p>小红书运营 / 视频剪辑 / 社交媒体 / 内容策划</p>
 </div>
 </div>
 </div>
 </div>
+</section>
 
 <section class="cases-section" id="cases">
 <div class="section-label accent-text reveal" style="padding-top:80px">SELECTED WORK</div>
