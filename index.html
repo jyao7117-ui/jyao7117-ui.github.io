@@ -72,8 +72,8 @@ a{color:inherit;text-decoration:none}
 .case-tags{display:flex;flex-wrap:wrap;gap:8px}
 .case-tags span{font-size:.6875rem;font-weight:600;padding:6px 14px;border:1px solid var(--gray);border-radius:2px;color:#555}
 .case-note{font-size:.75rem;color:var(--mid);font-style:italic;margin-top:16px}
-.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
-.gallery-item{aspect-ratio:1/1;position:relative;overflow:hidden;cursor:pointer;border:1px solid rgba(0,0,0,.05)}
+.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;padding:0 48px}
+.gallery-item{aspect-ratio:16/9;position:relative;overflow:hidden;cursor:pointer;border-radius:4px}
 .gallery-item-bg{width:100%;height:100%;transition:transform .6s cubic-bezier(.25,.1,.25,1)}
 .gallery-item:hover .gallery-item-bg{transform:scale(1.08)}
 .gallery-item-label{position:absolute;bottom:0;left:0;right:0;padding:20px 16px;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 100%);opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
@@ -87,8 +87,8 @@ a{color:inherit;text-decoration:none}
 .contact-item-value{font-size:.875rem;color:rgba(255,255,255,.7)}
 .footer{padding:24px 48px;text-align:center;border-top:1px solid var(--gray)}
 .footer p{font-size:.6875rem;color:var(--mid);font-family:var(--font-en);letter-spacing:.04em}
-@media(max-width:1024px){.about-grid,.case-block{grid-template-columns:1fr}.case-block.reverse{direction:ltr}.gallery-grid{grid-template-columns:repeat(3,1fr)}.case-content{padding:60px 32px}.about-left,.about-right{padding:60px 32px}}
-@media(max-width:768px){.nav{padding:20px 24px}.hamburger{display:flex}.nav-links{position:fixed;top:0;right:0;width:260px;height:100vh;background:var(--white);flex-direction:column;justify-content:center;align-items:center;gap:32px;transform:translateX(100%);transition:transform .4s cubic-bezier(.25,.1,.25,1);box-shadow:-8px 0 32px rgba(0,0,0,.06)}.nav-links.active{transform:translateX(0)}.hero{padding:80px 24px 40px}.hero-bottom{grid-template-columns:1fr;gap:32px}.hero-photo{max-width:280px}.about-hero{padding:80px 24px 40px}.about-left,.about-right,.case-content{padding:48px 24px}.cap-grid{grid-template-columns:1fr}.stats-bar{flex-direction:column}.gallery-grid{grid-template-columns:repeat(2,1fr)}.contact{padding:80px 24px}.contact-grid{grid-template-columns:1fr}}
+@media(max-width:1024px){.about-grid,.case-block{grid-template-columns:1fr}.case-block.reverse{direction:ltr}.gallery-grid{grid-template-columns:repeat(2,1fr)}.case-content{padding:60px 32px}.about-left,.about-right{padding:60px 32px}}
+@media(max-width:768px){.nav{padding:20px 24px}.hamburger{display:flex}.nav-links{position:fixed;top:0;right:0;width:260px;height:100vh;background:var(--white);flex-direction:column;justify-content:center;align-items:center;gap:32px;transform:translateX(100%);transition:transform .4s cubic-bezier(.25,.1,.25,1);box-shadow:-8px 0 32px rgba(0,0,0,.06)}.nav-links.active{transform:translateX(0)}.hero{padding:80px 24px 40px}.hero-bottom{grid-template-columns:1fr;gap:32px}.hero-photo{max-width:280px}.about-hero{padding:80px 24px 40px}.about-left,.about-right,.case-content{padding:48px 24px}.cap-grid{grid-template-columns:1fr}.stats-bar{flex-direction:column}.gallery-grid{grid-template-columns:1fr}.contact{padding:80px 24px}.contact-grid{grid-template-columns:1fr}}
 
 .case-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-en);font-size:.8125rem;font-weight:600;letter-spacing:.08em;color:var(--accent);margin-top:24px;transition:all .3s;border-bottom:1px solid transparent}
 .case-link:hover{border-bottom-color:var(--accent)}
@@ -273,6 +273,10 @@ a{color:inherit;text-decoration:none}
 <a href="pdfs/jikexie.pdf" target="_blank" class="gallery-item reveal"><img src="images/cover-jikexie.png" alt="极客谈鞋 SNEAKER GEEK" class="gallery-item-bg" style="object-fit:cover"><div class="gallery-item-label"><span>极客谈鞋 SNEAKER GEEK</span></div></a>
 <a href="pdfs/guanhai.pdf" target="_blank" class="gallery-item reveal"><img src="images/cover-guanhai.png" alt="观海 GUANHAI" class="gallery-item-bg" style="object-fit:cover"><div class="gallery-item-label"><span>观海 GUANHAI</span></div></a>
 <a href="pdfs/chongya.pdf" target="_blank" class="gallery-item reveal"><img src="images/cover-chongya.png" alt="冲鸭体育 GOYA SPORTS" class="gallery-item-bg" style="object-fit:cover"><div class="gallery-item-label"><span>冲鸭体育 GOYA SPORTS</span></div></a>
+<a href="pdfs/mountschool.pdf" target="_blank" class="gallery-item reveal"><img src="images/cover-mountschool.png" alt="Mount School" class="gallery-item-bg" style="object-fit:cover"><div class="gallery-item-label"><span>Mount School 品牌设计</span></div></a>
+<a href="pdfs/needii.pdf" target="_blank" class="gallery-item reveal"><img src="images/cover-needii.png" alt="NEEDii" class="gallery-item-bg" style="object-fit:cover"><div class="gallery-item-label"><span>NEEDii 宠物品牌</span></div></a>
+<a href="pdfs/pipihui.pdf" target="_blank" class="gallery-item reveal"><img src="images/cover-pipihui.png" alt="皮皮灰面包" class="gallery-item-bg" style="object-fit:cover"><div class="gallery-item-label"><span>皮皮灰面包 LOGO设计</span></div></a>
+<a href="pdfs/nisijie.pdf" target="_blank" class="gallery-item reveal"><img src="images/cover-nisijie.png" alt="蜀渝你四姐" class="gallery-item-bg" style="object-fit:cover"><div class="gallery-item-label"><span>蜀渝你四姐 冒菜品牌</span></div></a>
 </div>
 
 <section class="contact" id="contact">
