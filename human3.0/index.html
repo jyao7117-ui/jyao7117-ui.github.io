@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人生规划四象限测评 · Human 3.0</title>
+<meta name="description" content="基于 Dan Koe Human 3.0 模型的四象限人生规划测评：心智、身体、精神、事业，判断你目前的发展阶段，生成个人发展档案。34题 · 约6分钟 · 数据仅存本机。">
+<style>
+:root{
+  --paper:#0E110E;
+  --paper-deep:#131713;
+  --card:#171C17;
+  --ink:#EDEAE0;
+  --ink-soft:#A6AD9E;
+  --ink-faint:#6B7266;
+  --line:#2C332C;
+  --pine:#C9F24D;
+  --pine-deep:#A8CF3C;
+  --ochre:#C9A66B;
+  --l1:#C9A66B;
+  --l2:#6FA8E6;
+  --l3:#C9F24D;
+  --serif:"Songti SC","STSong","Noto Serif SC",serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --mono:"SF Mono","Menlo","Consolas",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.75;
+  min-height:100vh;
+  background-image:
+    radial-gradient(ellipse at 15% 0%, rgba(201,242,77,.05), transparent 55%),
+    radial-gradient(ellipse at 90% 100%, rgba(201,166,107,.04), transparent 50%);
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+::selection{background:var(--pine);color:var(--paper)}
+button{font-family:var(--sans)}
+
+.screen{display:none;min-height:100vh}
+.screen.active{display:block;animation:fadeIn .45s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.kicker{
+  font-family:var(--sans);font-size:11.5px;letter-spacing:.35em;
+  text-transform:uppercase;color:var(--ink-faint);
+}
+.mono{font-family:var(--mono)}
+
+/* ---------- COVER ---------- */
+.cover{max-width:760px;margin:0 auto;padding:72px 26px 110px}
+.cover-rule{border-top:1px solid var(--ink);border-bottom:3px double var(--ink);height:7px;margin-bottom:34px}
+.cover-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:44px}
+.cover h1{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(40px,8.6vw,72px);line-height:1.18;letter-spacing:.04em;
+  margin-bottom:18px;
+}
+.cover h1 em{font-style:normal;color:var(--pine)}
+.cover .en-title{font-family:var(--mono);font-size:13px;letter-spacing:.3em;color:var(--ink-soft);margin-bottom:30px}
+.cover .lede{font-size:15.5px;color:var(--ink-soft);max-width:600px;margin-bottom:34px}
+.origin{border:1px solid var(--ink);background:var(--card);padding:26px 28px;margin-bottom:40px}
+.origin .kicker{margin-bottom:18px}
+.origin-row{display:grid;grid-template-columns:104px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--line);font-size:13.5px;line-height:1.9}
+.origin-row:first-of-type{border-top:none;padding-top:0}
+.origin-row .no{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--pine);padding-top:4px}
+.origin-row .no b{display:block;font-family:var(--serif);font-size:15px;color:var(--ink);letter-spacing:.06em;font-weight:700;margin-top:3px}
+.origin-row .tx{color:var(--ink-soft)}
+.origin-row .tx b{color:var(--ink)}
+.origin-row .tx .hl{color:var(--pine);font-weight:600}
+.cover-meta{display:flex;flex-wrap:wrap;gap:10px 26px;font-size:13px;color:var(--ink-faint);margin-bottom:38px}
+.cover-meta b{font-family:var(--mono);color:var(--ink);font-weight:600}
+
+.quad-strip{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--ink);margin-bottom:40px;background:var(--card)}
+.quad-cell{padding:18px 14px;border-right:1px solid var(--line);text-align:center}
+.quad-cell:last-child{border-right:none}
+.quad-cell .zh{font-family:var(--serif);font-size:21px;font-weight:900}
+.quad-cell .en{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--pine);margin-top:3px}
+.quad-cell .d{font-size:11px;color:var(--ink-faint);margin-top:6px;line-height:1.55}
+
+.btn{
+  display:inline-block;font-size:15px;letter-spacing:.28em;text-indent:.28em;
+  padding:17px 46px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);
+  cursor:pointer;transition:.22s;font-family:var(--sans);
+}
+.btn:hover{background:var(--pine);border-color:var(--pine)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.btn.small{font-size:13px;padding:12px 28px;letter-spacing:.2em;text-indent:.2em}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.cover-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.cover-tip{font-size:12.5px;color:var(--ochre);margin-bottom:44px}
+.last-box{
+  border:1px solid var(--line);background:var(--card);padding:18px 22px;margin-bottom:44px;
+  display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.last-box .lt{font-size:13.5px;color:var(--ink-soft)}
+.last-box b{color:var(--ink)}
+.details-block{border-top:1px solid var(--line);padding-top:26px;margin-top:8px}
+details summary{cursor:pointer;font-family:var(--serif);font-size:17px;font-weight:700;letter-spacing:.06em;list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"＋ ";color:var(--pine)}
+details[open] summary::before{content:"－ "}
+details .d-body{font-size:13.5px;color:var(--ink-soft);margin-top:14px}
+details .d-body ul{margin:10px 0 0 18px}
+details .d-body li{margin-bottom:5px}
+details details{margin-top:14px;padding-left:16px;border-left:1px solid var(--line)}
+.privacy{font-size:12px;color:var(--ink-faint);margin-top:26px;line-height:2}
+/* ---------- QUIZ ---------- */
+.quiz{max-width:660px;margin:0 auto;padding:0 26px 140px;position:relative}
+.q-head{position:sticky;top:0;z-index:20;background:var(--paper);padding:22px 0 0}
+.q-head-row{display:flex;align-items:baseline;gap:14px;margin-bottom:12px}
+.q-head-row .sec-name{font-family:var(--serif);font-size:15px;font-weight:700;letter-spacing:.14em}
+.q-head-row .sec-name span{color:var(--pine);font-family:var(--mono);font-size:11px;letter-spacing:.2em;margin-right:8px}
+.q-head-row .cnt{font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-left:auto}
+.q-track{height:3px;background:var(--paper-deep);position:relative;margin-bottom:0}
+.q-fill{position:absolute;left:0;top:0;bottom:0;background:var(--pine);transition:width .35s ease}
+.q-back{background:none;border:none;color:var(--ink-faint);font-size:12.5px;cursor:pointer;letter-spacing:.1em;padding:0;flex-shrink:0}
+.q-back:hover{color:var(--ink)}
+.q-stage{padding:64px 0 30px;min-height:64vh}
+.q-no{font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--ink-faint);margin-bottom:22px}
+.q-no .rev{color:var(--ochre);font-size:10.5px;margin-left:10px;border:1px solid var(--line);padding:1px 7px;letter-spacing:.12em}
+.q-text{font-family:var(--serif);font-size:clamp(22px,4.6vw,29px);font-weight:700;line-height:1.62;margin-bottom:36px;letter-spacing:.02em}
+.opts{display:flex;flex-direction:column;gap:11px}
+.opt{
+  display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  background:var(--card);border:1px solid var(--line);color:var(--ink-soft);
+  font-size:15px;padding:15px 18px;cursor:pointer;transition:.2s;line-height:1.5;
+}
+.opt .on{font-family:var(--mono);font-size:13px;color:var(--ink-faint);width:20px;flex-shrink:0}
+.opt:hover{border-color:var(--ink-faint)}
+.opt.sel{border:1.5px solid var(--pine);background:var(--paper-deep);color:var(--ink);font-weight:500}
+.opt.sel .on{color:var(--pine)}
+.q-foot{position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-top:1px solid var(--line);z-index:30}
+.q-foot-in{max-width:660px;margin:0 auto;padding:16px 26px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.q-foot .hint{font-size:11.5px;color:var(--ink-faint);letter-spacing:.06em}
+.next-btn{opacity:0;pointer-events:none;transform:translateY(6px);transition:.25s}
+.next-btn.show{opacity:1;pointer-events:auto;transform:none}
+
+/* ---------- INTERSTITIAL ---------- */
+.inter{display:none;min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:40px 26px}
+.inter.active{display:flex;animation:fadeIn .5s ease both}
+.inter .i-no{font-family:var(--mono);font-size:13px;letter-spacing:.4em;color:var(--ochre);margin-bottom:20px}
+.inter h2{font-family:var(--serif);font-size:clamp(46px,10vw,84px);font-weight:900;letter-spacing:.1em;margin-bottom:10px}
+.inter .i-en{font-family:var(--mono);font-size:13px;letter-spacing:.5em;color:var(--pine);margin-bottom:26px}
+.inter p{font-size:14px;color:var(--ink-soft);max-width:420px;margin:0 auto 34px}
+.inter .skip{background:none;border:none;color:var(--ink-faint);font-size:12px;letter-spacing:.2em;cursor:pointer;border-bottom:1px solid var(--line);padding-bottom:3px}
+
+/* ---------- LOADING ---------- */
+.loading{display:none;min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:40px 26px}
+.loading.active{display:flex}
+.load-ring{width:54px;height:54px;border:2px solid var(--paper-deep);border-top-color:var(--pine);border-radius:50%;margin:0 auto 30px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.load-lines{font-family:var(--serif);font-size:17px;color:var(--ink-soft);line-height:2.4;min-height:130px}
+.load-lines .ll{opacity:0;transition:opacity .5s}
+.load-lines .ll.on{opacity:1}
+.load-lines .ll.done::after{content:" ✓";color:var(--pine);font-family:var(--mono);font-size:13px}
+
+/* ---------- REPORT ---------- */
+.report{max-width:820px;margin:0 auto;padding:60px 26px 130px}
+.rp-head{border-bottom:3px double var(--ink);padding-bottom:30px;margin-bottom:6px}
+.rp-head .kicker{margin-bottom:16px}
+.rp-head h1{font-family:var(--serif);font-size:clamp(30px,5.4vw,46px);font-weight:900;line-height:1.3;letter-spacing:.03em}
+.rp-meta{font-family:var(--mono);font-size:12px;color:var(--ink-faint);letter-spacing:.1em;margin-top:14px}
+.valid-box{border:1px dashed var(--ochre);background:rgba(201,166,107,.07);padding:14px 18px;font-size:13px;color:var(--ochre);margin:22px 0 0;line-height:1.8}
+.mt-box{display:grid;grid-template-columns:230px 1fr;border:1px solid var(--ink);background:var(--card);margin:34px 0 0}
+.mt-score{padding:28px 24px;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}
+.mt-score .lab{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--ink-faint);margin-bottom:6px}
+.mt-score .val{font-family:var(--mono);font-size:58px;font-weight:700;color:var(--pine);line-height:1.05}
+.mt-score .val small{font-size:19px;color:var(--ink-faint)}
+.mt-score .tier{font-family:var(--serif);font-size:19px;font-weight:700;margin-top:10px;letter-spacing:.06em}
+.mt-score .delta{font-family:var(--mono);font-size:11.5px;color:var(--ochre);margin-top:6px}
+.mt-body{padding:28px 30px}
+.mt-body .codename{font-family:var(--serif);font-size:26px;font-weight:900;margin-bottom:10px;letter-spacing:.08em}
+.mt-body .codename span{color:var(--ochre)}
+.mt-body p{font-size:14.5px;color:var(--ink-soft);line-height:1.9}
+.mt-body p+p{margin-top:8px;font-size:13.5px;color:var(--ink-faint)}
+.rp-nav{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0 8px;position:sticky;top:0;z-index:15;background:var(--paper);padding:12px 0}
+.rp-nav a{
+  font-size:12px;letter-spacing:.14em;color:var(--ink-soft);text-decoration:none;
+  border:1px solid var(--line);padding:7px 15px;background:var(--card);transition:.2s;
+}
+.rp-nav a:hover{border-color:var(--pine);color:var(--pine)}
+.radar-wrap{display:grid;grid-template-columns:330px 1fr;gap:24px;align-items:center;border:1px solid var(--line);background:var(--card);padding:26px;margin-top:18px}
+.legend{font-size:12.5px;color:var(--ink-soft);line-height:2.1}
+.legend .lr{display:flex;align-items:center;gap:9px}
+.legend i{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.legend .div{border-top:1px solid var(--line);margin:12px 0;padding-top:12px;font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.05em}
+
+.rq{border:1px solid var(--ink);background:var(--card);margin-top:34px;scroll-margin-top:76px}
+.rq-head{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--line);background:var(--paper-deep);flex-wrap:wrap;gap:10px}
+.rq-head .t{display:flex;align-items:baseline;gap:12px}
+.rq-head .t .no{font-family:var(--mono);color:var(--pine);font-size:12px;letter-spacing:.2em}
+.rq-head .t h3{font-family:var(--serif);font-size:25px;font-weight:900;letter-spacing:.08em}
+.rq-head .t .en{font-family:var(--mono);font-size:10.5px;letter-spacing:.3em;color:var(--ink-faint)}
+.badge{font-family:var(--mono);font-size:14px;font-weight:700;padding:7px 14px;border:1.5px solid;letter-spacing:.04em;background:var(--card)}
+.badge.lv1{color:var(--l1);border-color:var(--l1)}
+.badge.lv2{color:var(--l2);border-color:var(--l2)}
+.badge.lv3{color:var(--l3);border-color:var(--l3)}
+.badge .ph{font-size:10.5px;font-weight:400;margin-left:7px;opacity:.85}
+.rq-body{padding:24px}
+.rq-body .row{margin-bottom:24px}
+.rq-body .row:last-child{margin-bottom:0}
+.rlab{font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;color:var(--pine);margin-bottom:11px;text-transform:uppercase}
+.levelbar{position:relative;height:32px;background:var(--paper-deep);border:1px solid var(--line);display:flex}
+.levelbar .seg{flex:1;position:relative;border-right:1px solid var(--line)}
+.levelbar .seg:last-child{border-right:none}
+.levelbar .seg b{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--ink-faint);letter-spacing:.1em;font-weight:400}
+.levelbar .marker{position:absolute;top:-6px;bottom:-6px;width:2.5px;background:var(--ochre)}
+.levelbar .marker::after{
+  content:attr(data-v);position:absolute;top:-23px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:11px;color:var(--ochre);white-space:nowrap;font-weight:700;
+}
+.diag{font-size:14.5px;line-height:1.95}
+.traits{list-style:none;margin-top:10px}
+.traits li{font-size:13.5px;color:var(--ink-soft);padding-left:20px;position:relative;margin-bottom:5px}
+.traits li::before{content:"—";position:absolute;left:0;color:var(--pine)}
+.subscores{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px}
+.subscore{background:var(--paper-deep);border:1px solid var(--line);padding:11px 13px}
+.subscore .n{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-soft)}
+.subscore .n b{font-family:var(--mono);color:var(--ink)}
+.subscore .track{height:4px;background:var(--line);margin-top:8px;position:relative}
+.subscore .fill{position:absolute;left:0;top:0;bottom:0;background:var(--pine)}
+.evid{background:var(--paper-deep);border-left:3px solid var(--pine);padding:15px 18px}
+.evid p{font-size:13px;color:var(--ink-soft);line-height:1.9}
+.evid p+p{margin-top:7px}
+.evid .q{color:var(--ink)}
+.evid .a{font-family:var(--mono);color:var(--pine);font-size:12px;font-weight:600}
+.arc-flow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}
+.arc-flow .st{flex:1 1 150px;min-width:130px;padding:12px 15px;border:1px solid var(--line);background:var(--paper-deep);color:var(--ink-faint)}
+.arc-flow .st.on{border:1.5px solid var(--ochre);background:rgba(201,166,107,.09)}
+.arc-flow .st .st-name{font-family:var(--serif);font-size:15px;font-weight:700;letter-spacing:.05em;color:var(--ink-faint)}
+.arc-flow .st.on .st-name{color:var(--ochre)}
+.arc-flow .st .st-def{font-size:11.5px;line-height:1.7;margin-top:6px;color:var(--ink-faint)}
+.arc-flow .st.on .st-def{color:var(--ink-soft)}
+.arc-flow .arw{align-self:center;color:var(--ink-faint);font-family:var(--mono);font-size:16px}
+.arc-note{margin-top:12px;font-size:13px;color:var(--ink-soft);line-height:1.85}
+.arc-note b{color:var(--ochre)}
+.legend-box{border:1px solid var(--line);background:var(--card);padding:0;margin:26px 0 0}
+.legend-box summary{padding:15px 20px;font-size:15px}
+.legend-box .lg-body{padding:4px 20px 20px;display:grid;gap:16px}
+.legend-box .lg-sec{font-size:13px;color:var(--ink-soft);line-height:1.9}
+.legend-box .lg-sec b{color:var(--ink);font-family:var(--serif);font-size:14.5px;margin-right:4px}
+.lg-line{display:block;color:var(--ink-soft)}
+.lg-line .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:1px}
+.dot.l1{background:var(--l1)}.dot.l2{background:var(--l2)}.dot.l3{background:var(--l3)}
+.phasebox{background:var(--paper-deep);border:1px dashed var(--line);padding:15px 18px;font-size:13.5px;color:var(--ink-soft);line-height:1.85}
+.phasebox b{color:var(--ink)}
+.pattern-box{border:1.5px solid var(--ochre);background:rgba(201,166,107,.055);padding:26px;margin-top:40px;scroll-margin-top:76px}
+.pattern-box .kicker{color:var(--ochre)}
+.pattern-box h3{font-family:var(--serif);font-size:25px;margin:8px 0 10px}
+.pattern-box h3 span{color:var(--ochre)}
+.pattern-box p{font-size:14px;color:var(--ink-soft);line-height:1.9}
+.pattern-box p+p{margin-top:10px;font-size:13px;color:var(--ink-faint)}
+.plan{border:1px solid var(--ink);background:var(--card);padding:28px;margin-top:34px;scroll-margin-top:76px}
+.plan h3{font-family:var(--serif);font-size:25px;margin:8px 0 10px}
+.plan-lead{font-size:13.5px;color:var(--pine);line-height:1.8;margin-bottom:6px}
+.plan ol{list-style:none;counter-reset:p;margin-top:18px}
+.plan ol li{counter-increment:p;position:relative;padding-left:52px;margin-bottom:20px;font-size:14px;color:var(--ink-soft);line-height:1.85}
+.plan ol li:last-child{margin-bottom:0}
+.plan ol li::before{
+  content:"";position:absolute;left:0;top:6px;
+  width:15px;height:15px;border:2px solid var(--pine);
+}
+.plan ol li b{color:var(--ink)}
+.plan ol li .sm{color:var(--ink-faint);font-size:12.5px}
+.rp-actions{display:flex;gap:12px;margin-top:42px;flex-wrap:wrap}
+.footnote{margin-top:40px;padding-top:22px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-faint);line-height:2.1}
+.footnote a{color:var(--ink-soft)}
+
+/* ---------- CARD MODAL ---------- */
+.card-modal{position:fixed;inset:0;background:rgba(10,13,10,.96);z-index:200;display:none;align-items:flex-start;justify-content:center;flex-direction:column;padding:24px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.card-modal.open{display:flex}
+.card-modal img{width:min(80vw,370px);border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.5);margin:auto 0}
+.card-modal .cm-hint{color:#e8e0d0;font-size:13px;margin-top:18px;letter-spacing:.1em;text-align:center;line-height:2}
+.card-modal .cm-btns{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;justify-content:center}
+.card-modal .cm-btns .btn{border-color:#e8e0d0;background:transparent;color:#e8e0d0}
+.card-modal .cm-btns .btn:hover{background:#e8e0d0;color:var(--ink)}
+.card-modal .cm-btns .btn.solid{background:#e8e0d0;color:var(--ink)}
+.card-modal .cm-btns .btn.solid:hover{background:var(--pine);border-color:var(--pine);color:#fff}
+.toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);font-size:13px;letter-spacing:.08em;padding:12px 26px;z-index:300;opacity:0;pointer-events:none;transition:.3s}
+.toast.show{opacity:1;transform:translateX(-50%)}
+
+@media(max-width:840px){
+  .radar-wrap{grid-template-columns:1fr}
+  .mt-box{grid-template-columns:1fr}
+  .mt-score{border-right:none;border-bottom:1px solid var(--line)}
+  .quad-strip{grid-template-columns:repeat(2,1fr)}
+  .quad-cell:nth-child(2n){border-right:none}
+  .quad-cell:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .q-stage{padding-top:44px}
+  .origin-row{grid-template-columns:1fr;gap:4px}
+  .origin-row .no{display:flex;align-items:baseline;gap:8px;padding-top:0}
+  .origin-row .no b{display:inline;margin-top:0}
+  .arc-flow .arw{display:none}
+  .legend-box .lg-body{padding:4px 16px 16px}
+}
+@media print{
+  :root{
+    --paper:#ffffff;--paper-deep:#f2f2f0;--card:#ffffff;
+    --ink:#1a1a1a;--ink-soft:#4a4a4a;--ink-faint:#777777;--line:#c9c9c9;
+    --pine:#4d6b0f;--pine-deep:#3d5a0a;--ochre:#8a6d3b;
+    --l1:#8a6d3b;--l2:#2f5f9e;--l3:#4d6b0f;
+  }
+  .rp-nav,.rp-actions,.card-modal,.toast,.q-foot{display:none!important}
+  body{background:#fff;background-image:none}
+  body::before{display:none}
+  .rq,.mt-box,.radar-wrap,.plan,.pattern-box{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section class="screen active" id="s-cover">
+  <div class="cover">
+    <div class="cover-rule"></div>
+    <div class="cover-top">
+      <div class="kicker">Human 3.0 · Self-Assessment</div>
+      <div class="kicker">Developmental Map</div>
+    </div>
+    <h1>人生规划<br><em>四象限</em>测评</h1>
+    <div class="en-title">MIND · BODY · SPIRIT · VOCATION</div>
+    <p class="lede">
+      这是一份基于 Dan Koe《Human 3.0》发展模型的自评测评。34 道题，判断你在心智、身体、精神、事业
+      四个象限分别处于「遵循者 → 自主者 → 合成者」的哪一级、哪一阶段，生成你的个人发展档案与 90 天行动计划。
+    </p>
+    <div class="origin">
+      <div class="kicker">这个测评从哪来</div>
+      <div class="origin-row">
+        <div class="no">01<b>他是谁</b></div>
+        <div class="tx"><b>Dan Koe</b>，加拿大独立创作者与作家，thedankoe.com 主理人，长期以一人公司的形式写作哲学、心理与商业的交叉地带。他最核心的主张是：<span class="hl">人生这场游戏应该由自己写规则</span>，而不是继承别人写好的剧本。</div>
+      </div>
+      <div class="origin-row">
+        <div class="no">02<b>他为什么做这个模型</b></div>
+        <div class="tx">他观察到大多数人的困境：按社会默认路线走到成年后，旧剧本失效，新方向迟迟建立不起来——卡在「遵循者」与「自主者」之间。他在 2025 年的文章《HUMAN 3.0 — A Map To Reach The Top 1%》里提出这张地图：<span class="hl">发展不是一条赛道，而是心智、身体、精神、事业四个象限的同时演化</span>，四个象限互相拖累或互相成就。</div>
+      </div>
+      <div class="origin-row">
+        <div class="no">03<b>我们怎么把它做成测评</b></div>
+        <div class="tx">他的原文是一张供自省的地图。我们把地图里的每个级别与阶段，落成 <span class="hl">34 道具体行为描述题</span>（含反向题校验作答真实性），覆盖 16 个子维度；按你的作答折算每个象限 0–100 分，对应到 L1/L2/L3 三个级别，再按级别内的位置判定所处阶段，四象限均值得到总发展分 Metatype。</div>
+      </div>
+      <div class="origin-row">
+        <div class="no">04<b>它能帮你什么</b></div>
+        <div class="tx">不是性格测试，是<span class="hl">战略定位</span>：告诉你四个象限各自的真实水位与可回溯的判定依据，指出互相拖累的失衡模式，并把最值得投入的那个象限，拆成未来 90 天的具体动作。90 天后可复测对比。</div>
+      </div>
+    </div>
+    <div class="cover-meta">
+      <span><b>34</b> 题</span><span>约 <b>6</b> 分钟</span><span><b>16</b> 个子维度</span><span>免费 · 匿名</span>
+    </div>
+    <div class="quad-strip">
+      <div class="quad-cell"><div class="zh">心智</div><div class="en">MIND</div><div class="d">认知 · 情绪<br>思维 · 自我意识</div></div>
+      <div class="quad-cell"><div class="zh">身体</div><div class="en">BODY</div><div class="d">健康 · 睡眠<br>运动 · 精力</div></div>
+      <div class="quad-cell"><div class="zh">精神</div><div class="en">SPIRIT</div><div class="d">价值 · 意义<br>关系 · 方向</div></div>
+      <div class="quad-cell"><div class="zh">事业</div><div class="en">VOCATION</div><div class="d">工作 · 收入<br>技能 · 商业 · 自由</div></div>
+    </div>
+    <div id="lastBox"></div>
+    <div class="cover-cta">
+      <input id="nameInput" maxlength="20" placeholder="你的名字（选填）"
+        style="background:transparent;border:none;border-bottom:1.5px solid var(--ink);padding:14px 4px;font-family:var(--serif);font-size:18px;color:var(--ink);outline:none;width:220px">
+      <button class="btn" onclick="startFresh()">开始测评</button>
+      <button class="btn ghost" id="resumeBtn" style="display:none" onclick="resumeQuiz()">继续作答</button>
+    </div>
+    <p class="cover-tip">作答提示：请按最近 30 天的真实状态选择，不要按理想中的自己。</p>
+    <div class="details-block">
+      <details>
+        <summary>模型说明：三个级别 · 三个阶段</summary>
+        <div class="d-body">
+          <ul>
+            <li><b>L1 遵循者</b>——按继承来的剧本运行：信任权威与传统，相信只有一种正确活法。</li>
+            <li><b>L2 自主者</b>——拒绝默认设置，追求自己认定的价值；但容易把「我的方式」当成唯一正确。</li>
+            <li><b>L3 合成者</b>——在多视角之间切换，把不同体系的真相综合成自己的路径。</li>
+          </ul>
+          <details>
+            <summary>三个阶段（报告里的「2.1」记号）</summary>
+            <div class="d-body">
+              整数是级别，小数是该级别内的阶段：<br>
+              .1 失谐——对当前阶段开始腻味，说不清下一步；<br>
+              .2 不确定——已踏入未知，正在补知识与技能；<br>
+              .3 发现——找到工具与路径，即将跨级。<br>
+              例：事业 2.1 = 自主者 · 失谐期。
+            </div>
+          </details>
+          <details>
+            <summary>评分方法与边界</summary>
+            <div class="d-body">
+              每题 1–5 分（部分为反向计分题，用于校验）；象限分 = 均分折算 0–100，
+              &lt;45 判 L1，45–69 判 L2，≥70 判 L3；总发展分 = 四象限级别值的均值（1.0–3.0）。
+              报告中的「具体依据」由你的子维度得分与原始作答自动生成，逐条可回溯。
+              本测评为自评式发展定位工具，用于人生战略规划参考，不构成医学或心理临床诊断。
+            </div>
+          </details>
+        </div>
+      </details>
+    </div>
+    <p class="privacy">
+      作答数据仅保存在你的浏览器本机，不会上传。<br>
+      模型来源：Dan Koe《HUMAN 3.0 – A Map To Reach The Top 1%》(2025) · 四象限改编自 Ken Wilber AQAL
+    </p>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="screen" id="s-quiz">
+  <div class="quiz">
+    <div class="q-head">
+      <div class="q-head-row">
+        <button class="q-back" onclick="goBack()">← 返回</button>
+        <div class="sec-name" id="secName"></div>
+        <div class="cnt" id="qCount"></div>
+      </div>
+      <div class="q-track"><div class="q-fill" id="qFill"></div></div>
+    </div>
+    <div class="q-stage" id="qStage"></div>
+  </div>
+  <div class="q-foot">
+    <div class="q-foot-in">
+      <span class="hint" id="footHint">选择后进入下一题 · 桌面端可用键盘 1–5 作答</span>
+      <button class="btn small next-btn" id="nextBtn" onclick="nextQuestion()">下一题 →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTERSTITIAL ============ -->
+<section class="inter" id="s-inter">
+  <div>
+    <div class="i-no" id="iNo"></div>
+    <h2 id="iZh"></h2>
+    <div class="i-en" id="iEn"></div>
+    <p id="iDesc"></p>
+    <button class="skip" onclick="skipInter()">继续作答 →</button>
+  </div>
+</section>
+
+<!-- ============ LOADING ============ -->
+<section class="loading" id="s-loading">
+  <div>
+    <div class="load-ring"></div>
+    <div class="load-lines" id="loadLines"></div>
+  </div>
+</section>
+
+<!-- ============ REPORT ============ -->
+<section class="screen" id="s-report">
+  <div class="report" id="reportInner"></div>
+</section>
+
+<!-- ============ CARD MODAL ============ -->
+<div class="card-modal" id="cardModal">
+  <img id="cardImg" alt="Human 3.0 结果卡片">
+  <div class="cm-hint" id="cmHint">精简版长图 · 完整诊断与定义见网页报告 · 手机长按保存 / 电脑点「下载长图」</div>
+  <div class="cm-btns">
+    <button class="btn small solid" onclick="downloadCard()">下载长图</button>
+    <button class="btn small" onclick="closeCard()">关闭</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= 数据 ================= */
+const LABELS = ["完全不符合","比较不符合","一般","比较符合","完全符合"];
+const BAND_L1 = 45, BAND_L2 = 70;
+const SKEY = "h30_v2_state", LKEY = "h30_v2_last";
+
+const QUADRANTS = [
+{
+  key:"mind", idx:"01", name:"心智", en:"MIND",
+  def:"你如何解释世界——想法、情绪、信念与内部世界。",
+  subs:["认知","情绪","思维模式","自我意识"],
+  items:[
+    {id:"m1",sub:"认知",text:"遇到与我观点相反的意见，我会先找它可能成立的理由，再下判断。"},
+    {id:"m2",sub:"认知",text:"很多事情我认为只有一个正确做法，其他做法都是错的。",reverse:true},
+    {id:"m3",sub:"情绪",text:"情绪上来的当下，我通常会被它带着走，事后才发现。",reverse:true},
+    {id:"m4",sub:"情绪",text:"我能说清自己此刻是什么情绪、大概由什么引起。"},
+    {id:"m5",sub:"思维模式",text:"事情没做成之后，我会先复盘拿到了什么信息，而不是先责怪自己或别人。"},
+    {id:"m6",sub:"思维模式",text:"我觉得自己的处境主要是环境造成的，个人能改变的很有限。",reverse:true},
+    {id:"m7",sub:"自我意识",text:"我清楚自己的优势和短板，而且能在具体的事里用上这个认知。"},
+    {id:"m8",sub:"自我意识",text:"别人批评我时，我能分开「有事实的反馈」和「纯粹的情绪发泄」。"}
+  ],
+  arch:["剧本执行者","玩家","创造者"],
+  archDef:["按继承来的剧本思考与反应，观点非黑即白","开始建立自己的判断标准并复盘，但易把「我的方式」当唯一","能在多视角间切换，综合出自己的判断框架并输出给别人"],
+  levels:{
+    1:{d:"你的判断主要来自继承来的剧本：权威怎么说、周围人怎么活。观点容易非黑即白，情绪在事件发生时直接接管反应。",t:["观点多来自权威、传统或同温层，「别人的标准」就是标准","情绪常被事件直接带走，事后才复盘","遇到相反意见先站队，再找理由"]},
+    2:{d:"你已经不满足于默认设置，开始建立自己的判断标准，也会主动复盘。代价是容易把「我的标准」当成唯一标准；情绪觉察有了，但仍会被它拖着走。",t:["开始质疑默认设置，主动筛选信息","失败会复盘，但容易滑向自责或归因他人","能感到情绪，但情绪仍会影响决策"]},
+    3:{d:"你能在多个视角之间切换，把对立的观点合成更完整的判断，也能观察自己此刻的思维模式。保留的「固执」是主动降噪，而不是不会换位。",t:["区分事实、情绪与立场，再决定是否坚持","把失败当数据，复盘指向下一步动作","知道自己什么时候在自欺，并愿意戳破"]}
+  },
+  channel:"一条让你忘记时间的问题线：持续写作、冥想，或一个反复拆解的复杂系统。",
+  act:{1:"30 天判断练习：每天挑一条你深信的观念，主动写出一个成立的反例，再记录自己的反应。",
+       2:"找一个你最不认同的立场，替它写出最强论证，然后决定要不要修改你的版本。",
+       3:"把你的判断框架写成公开内容或教给别人——合成者的升级方式是创造新游戏。"}
+},
+{
+  key:"body", idx:"02", name:"身体", en:"BODY",
+  def:"你的行为与外在呈现，世界如何解读你。",
+  subs:["健康","睡眠","运动","精力"],
+  items:[
+    {id:"b1",sub:"健康",text:"我知道自己吃什么状态会变好、什么会变差，并且大体照着做。"},
+    {id:"b2",sub:"健康",text:"我的日常饮食基本靠外卖和随手对付解决。",reverse:true},
+    {id:"b3",sub:"睡眠",text:"我有大致固定的入睡时间，一周多数天能做到。"},
+    {id:"b4",sub:"睡眠",text:"我经常明知该睡了，还是刷手机刷到很晚。",reverse:true},
+    {id:"b5",sub:"运动",text:"我每周有两次以上、每次半小时以上的主动运动，并且能持续。"},
+    {id:"b6",sub:"运动",text:"我的运动全靠「想起来才动一下」，没有节奏。",reverse:true},
+    {id:"b7",sub:"精力",text:"我能预判自己一天中精力最好的时段，并把重要的事放在那里。"},
+    {id:"b8",sub:"精力",text:"我常在一天结束时精疲力尽，靠咖啡、糖或短视频硬撑。",reverse:true}
+  ],
+  arch:["被习惯支配","状态管理者","系统设计者"],
+  archDef:["饮食睡眠运动靠惯性与外界推力，精力靠刺激硬撑","有意识管理身体，但整套体系依赖意志力，一忙先被砍掉","身体是被设计过的系统：精力可预测、可调度、不靠硬撑"],
+  levels:{
+    1:{d:"你的身体运转主要靠惯性与外界推力：饮食随机、睡眠被屏幕拿走、运动靠偶然发生。精力靠刺激硬撑，恢复只能靠周末。",t:["饮食、睡眠的节奏由外界决定","运动是「想起来才动」的偶然事件","精力靠咖啡、糖、短视频透支"]},
+    2:{d:"你已经开始管理身体：有运动计划、关注饮食睡眠。但整套体系依赖意志力，工作一忙，第一个被砍掉的就是它。",t:["有运动 / 饮食计划，执行靠自律","状态好坏与工作忙闲强绑定","了解一些健康知识，尚未形成稳定系统"]},
+    3:{d:"身体是被设计过的系统：你了解自己的节律，饮食、睡眠、训练互相支撑，精力可预测、可调度，能长期运行而不靠硬撑。",t:["了解自身节律，能预测并安排精力","饮食 / 睡眠 / 训练形成互相支撑的结构","状态管理不依赖意志力，忙时也能守住底线"]}
+  },
+  channel:"一个让你上瘾的训练或饮食方法，连续 90 天深挖进去，把它跑成自己的实验。",
+  act:{1:"只锁定一个变量：固定入睡时间，或每周 3 次 30 分钟运动，连续执行 21 天，不叠加其他目标。",
+       2:"记录两周精力日志，把饮食、睡眠、训练与产出对齐，找出你自己的节律公式并固化成系统。",
+       3:"把你的身体系统输出为方法（记录、复盘、带人练）——用教学完成对低级别的「超越并包含」。"}
+},
+{
+  key:"spirit", idx:"03", name:"精神", en:"SPIRIT",
+  def:"你与环境、社群、文化、他人的关系，以及意义感的来源。",
+  subs:["价值观","意义感","人际关系","人生方向"],
+  items:[
+    {id:"s1",sub:"价值观",text:"我能说出当下对我最重要的三件事，而且它们不是照搬父母或社会的标准。"},
+    {id:"s2",sub:"价值观",text:"大家都认为好的人生（稳定、体面、按流程走），就是我认为好的人生。",reverse:true},
+    {id:"s3",sub:"意义感",text:"我清楚现在做的事对我为什么重要，不只是「别人都在做」。"},
+    {id:"s4",sub:"意义感",text:"大部分时间我说不清自己在忙什么、为了什么。",reverse:true},
+    {id:"s5",sub:"人际关系",text:"我有一两个可以讲真实困境、不用包装的关系。"},
+    {id:"s6",sub:"人际关系",text:"在人群里我习惯扮演「应该的样子」，很少让人看到真实想法。",reverse:true},
+    {id:"s7",sub:"人生方向",text:"过去一年我主动做过与主流路线不同的选择，并且承担了它的代价。"},
+    {id:"s8",sub:"人生方向",text:"对「大家都走的路」和「我想走的路」，我能说出两者的区别并做过取舍。"}
+  ],
+  arch:["继承的信仰","反叛的怀疑","个人化整合"],
+  archDef:["价值观来自家庭与社会的默认脚本，意义感依附于「该做的事」","主动拒绝默认路线，但非此即彼，用反向定义自己","多套价值体系并存自选，意义感来源多元，关系更真实"],
+  levels:{
+    1:{d:"你的价值标准主要来自继承：家庭期待、社会默认路线。意义感来自「完成该完成的」，在关系里习惯扮演应该成为的样子。",t:["价值观来自家庭与社会的默认脚本","意义感依附于「该做的事」清单","关系中展示的是角色，而非真实想法"]},
+    2:{d:"你在主动切割默认路线，追求自己认定的价值。代价是非此即彼：先反叛，再把「我的选择」当成唯一正确。关系开始变真实，但仍挑人。",t:["主动拒绝默认路线，追求自我认定的价值","容易非此即彼，用反向定义自己","部分关系变得真实，但只对少数人敞开"]},
+    3:{d:"你能容纳多套价值体系而不急着站队，从中自选核心；意义感不依赖单一来源；既有敢讲真话的关系，也做得到方向长期坚持、允许修正。",t:["多套价值体系并存，自选而非被给予","意义感来源多元，单一挫折不会清零","有真实关系，方向能坚持也允许调整"]}
+  },
+  channel:"一段能讲真话的关系，或一门「点击」了的哲学——沉浸进去，直到它改变你看世界的方式。",
+  act:{1:"列出你正在过的生活里哪些是「别人的期待」，挑一件明确拒绝，并承担它的后果。",
+       2:"做一次价值排序重写：写下 10 个在乎项，压到 3 个，并让最近三个月的时间分配与之一致。",
+       3:"把你的意义框架落到一个长期承诺上（项目、关系或创作），用持续投入代替反复确认。"}
+},
+{
+  key:"vocation", idx:"04", name:"事业", en:"VOCATION",
+  def:"你与系统、结构和社会制度的关系——你如何嵌入并贡献于社会。",
+  subs:["工作","收入","技能","商业能力","自由度"],
+  items:[
+    {id:"v1",sub:"工作",text:"我把工作看作可以主动塑造的事，而不只是必须熬完的任务。"},
+    {id:"v2",sub:"工作",text:"我对工作的主要态度是「熬过去、拿工资」。",reverse:true},
+    {id:"v3",sub:"收入",text:"我的收入能覆盖支出，并有固定的储蓄或结余节奏。"},
+    {id:"v4",sub:"收入",text:"收入一停我几乎没有缓冲，每个月都很紧。",reverse:true},
+    {id:"v5",sub:"技能",text:"我的技能组合在市场上有辨识度，别人能说清楚我擅长什么。"},
+    {id:"v6",sub:"技能",text:"我会做的事情，换个人培训几个月也能做。",reverse:true},
+    {id:"v7",sub:"商业能力",text:"我理解一门生意怎么赚钱：客户是谁、为什么付钱、成本在哪里。"},
+    {id:"v8",sub:"商业能力",text:"我完整推成过一件事（项目 / 内容 / 产品）：从 0 到 1 做完并拿到真实市场反馈。"},
+    {id:"v9",sub:"自由度",text:"我能在一定范围内自己选择做什么、和谁做、什么时候做。"},
+    {id:"v10",sub:"自由度",text:"我的工作节奏和内容基本由别人安排，我说了不算。",reverse:true}
+  ],
+  arch:["职位","职业","志业"],
+  archDef:["工作是熬过去拿工资，收入靠出售时间，节奏由别人安排","有意识积累技能与职业资本，开始理解生意逻辑，但选择权仍受限","方向与产出对齐，跑通过完整价值交换，选择权实质在手"],
+  levels:{
+    1:{d:"工作对你主要是必须完成的任务：收入靠出售时间，技能通用可替换，节奏和内容由别人安排。理解商业世界的方式是「别人说了算」。",t:["工作 = 熬过去、拿工资","技能可替换，缺少辨识度","对生意如何赚钱没有完整概念"]},
+    2:{d:"你在有意识地积累：可迁移技能、职业资本、收入提升，也开始理解生意的运转逻辑。但仍在既有轨道上爬，选择权和议价权有限。",t:["主动积累可迁移技能与职业资本","理解生意逻辑，但尚未亲自跑通完整闭环","收入在涨，选择权仍受限于轨道"]},
+    3:{d:"工作与方向对齐，技能有辨识度；你理解并实际运营过完整的价值交换，收入结构不依赖单一雇主；对「做什么、和谁、何时」有实质选择权。",t:["工作即志业，方向与产出对齐","跑通过完整的价值交换（0 到 1）","收入与时间的选择权实质在手"]}
+  },
+  channel:"一个让你停不下来的项目：一次产品发布、一次职业转身，或一门必须学会的技能冲刺。",
+  act:{1:"选定一个可迁移技能，90 天内做出一个能被别人看到的成果（作品、数据或案例）。",
+       2:"启动一个最小商业闭环：一个明确人群 + 一个具体问题 + 一次真实收费或交换，跑完 0 到 1。",
+       3:"重构收入结构，降低对单一来源的依赖，把已跑通的方法复制成第二条线。"}
+}];
+
+const PHASES = [
+  {n:".1",name:"失谐 Dissonance",desc:"对当前阶段开始腻味、隐约知道哪里不对，但说不清下一步。",
+   adv:"把不满写成一份具体清单；追踪让你兴奋的事——通道的入口是兴奋，不是「正确」。"},
+  {n:".2",name:"不确定 Uncertainty",desc:"已经迈入未知，正在补知识和技能，最容易焦虑。",
+   adv:"用 90 天小实验代替宏大计划，用产出检验进展，而不是用感觉。"},
+  {n:".3",name:"发现 Discovery",desc:"找到了工具、资源与路径，即将跨入下一级。",
+   adv:"把方法固化成系统并输出给别人，完成对上一级的「超越并包含」。"}
+];
+
+/* ================= 状态 ================= */
+let state = {name:"", answers:{}, idx:0, done:false};
+function save(){ try{ localStorage.setItem(SKEY, JSON.stringify(state)); }catch(e){} }
+function loadState(){
+  try{ const raw = localStorage.getItem(SKEY); if(raw){ const p = JSON.parse(raw); if(p && typeof p==="object") state = Object.assign(state,p); } }catch(e){}
+}
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._h); t._h = setTimeout(()=>t.classList.remove("show"), 2200);
+}
+
+/* ================= 路由 ================= */
+function show(id){
+  document.querySelectorAll(".screen,.inter,.loading").forEach(el=>el.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+/* ================= 封面 ================= */
+function flatItems(){
+  const out = [];
+  QUADRANTS.forEach((q,qi)=>q.items.forEach(it=>out.push({q,qi,it})));
+  return out;
+}
+function total(){ return QUADRANTS.reduce((s,q)=>s+q.items.length,0); }
+function answeredN(){ return Object.keys(state.answers).length; }
+
+function renderCover(){
+  const n = answeredN(), N = total();
+  const nm = document.getElementById("nameInput");
+  if(state.name && !nm.value) nm.value = state.name;
+  // 续答按钮
+  const rb = document.getElementById("resumeBtn");
+  rb.style.display = (n>0 && n<N) ? "inline-block" : "none";
+  if(n>0 && n<N) rb.textContent = "继续作答（" + n + "/" + N + "）";
+  // 上次报告
+  const lb = document.getElementById("lastBox");
+  let last = null;
+  try{ last = JSON.parse(localStorage.getItem(LKEY)); }catch(e){}
+  if(last && last.meta !== undefined && state.done){
+    lb.innerHTML = '<div class="last-box"><div class="lt">上次报告（'+last.date+'）：<b>'+last.meta.toFixed(1)+' / 3.0 · '+last.tier+'</b></div>'+
+      '<div><button class="btn small ghost" onclick="viewLast()">查看上次报告</button></div></div>';
+  }else{ lb.innerHTML = ""; }
+}
+function startFresh(){
+  const nm = document.getElementById("nameInput").value.trim();
+  if(nm) state.name = nm;
+  const n = answeredN();
+  if(n>0 && !state.done){
+    const ok = confirm("检测到未完成的作答（"+n+"/"+total()+"）。重新开始将清除旧作答，确定？");
+    if(!ok) return;
+  }
+  state.answers = {}; state.idx = 0; state.done = false;
+  save(); startQuizFlow();
+}
+function resumeQuiz(){
+  const nm = document.getElementById("nameInput").value.trim();
+  if(nm) state.name = nm;
+  // 跳到第一个未作答题
+  const flat = flatItems();
+  let i = flat.findIndex(f=>state.answers[f.it.id]===undefined);
+  if(i<0) i = flat.length-1;
+  state.idx = i; save(); startQuizFlow();
+}
+function startQuizFlow(){ show("s-quiz"); renderQuestion(); }
+
+/* ================= 答题 ================= */
+let answering = false;
+function renderQuestion(){
+  const flat = flatItems();
+  const i = Math.max(0, Math.min(state.idx, flat.length-1));
+  state.idx = i;
+  const {q,qi,it} = flat[i];
+  document.getElementById("secName").innerHTML = '<span>'+q.idx+'/04</span>'+q.name+' '+q.en;
+  document.getElementById("qCount").textContent = (i+1)+" / "+flat.length;
+  document.getElementById("qFill").style.width = ((i)/flat.length*100)+"%";
+  const cur = state.answers[it.id];
+  document.getElementById("qStage").innerHTML =
+    '<div class="q-no">Q'+String(i+1).padStart(2,"0")+' · '+it.sub+
+      (it.reverse?'<span class="rev">反向计分</span>':'')+'</div>'+
+    '<div class="q-text">'+it.text+'</div>'+
+    '<div class="opts">'+
+      LABELS.map((lb,k)=>
+        '<button class="opt'+(cur===k+1?' sel':'')+'" data-v="'+(k+1)+'"><span class="on">'+(k+1)+'</span>'+lb+'</button>'
+      ).join("")+
+    '</div>';
+  document.querySelectorAll("#qStage .opt").forEach(btn=>{
+    btn.addEventListener("click",()=>selectOption(parseInt(btn.dataset.v)));
+  });
+  const nb = document.getElementById("nextBtn");
+  const last = i === flat.length-1;
+  nb.textContent = last ? "生成报告 →" : "下一题 →";
+  nb.classList.toggle("show", cur!==undefined);
+}
+function selectOption(v){
+  const flat = flatItems();
+  const it = flat[state.idx].it;
+  state.answers[it.id] = v;
+  save();
+  document.querySelectorAll("#qStage .opt").forEach(b=>
+    b.classList.toggle("sel", parseInt(b.dataset.v)===v));
+  const nb = document.getElementById("nextBtn");
+  nb.classList.add("show");
+  // 选择后短暂亦可改选，随后自动前进（返回键可回看）
+  clearTimeout(answering);
+  answering = setTimeout(()=>{ if(document.getElementById("nextBtn").classList.contains("show")) nextQuestion(); }, 720);
+}
+function nextQuestion(){
+  clearTimeout(answering);
+  const flat = flatItems();
+  if(state.idx >= flat.length-1){ finishQuiz(); return; }
+  // 是否进入新象限 → 插入过场
+  const nextQi = flat[state.idx+1].qi, curQi = flat[state.idx].qi;
+  state.idx += 1; save();
+  if(nextQi !== curQi){ showInterstitial(nextQi); }
+  else renderQuestion();
+}
+function goBack(){
+  clearTimeout(answering);
+  if(state.idx<=0){ show("s-cover"); renderCover(); return; }
+  state.idx -= 1; save(); renderQuestion();
+}
+
+/* ================= 过场 ================= */
+let interTimer = null;
+function showInterstitial(qi){
+  const q = QUADRANTS[qi];
+  document.getElementById("iNo").textContent = "PART "+q.idx+" / 04";
+  document.getElementById("iZh").textContent = q.name;
+  document.getElementById("iEn").textContent = q.en;
+  document.getElementById("iDesc").textContent = q.def;
+  show("s-inter");
+  clearTimeout(interTimer);
+  interTimer = setTimeout(skipInter, 2600);
+}
+function skipInter(){ clearTimeout(interTimer); show("s-quiz"); renderQuestion(); }
+
+/* ================= 计分 ================= */
+function levelOf(p){ return p<BAND_L1?1:(p<BAND_L2?2:3); }
+function phaseOf(p,lv){
+  let lo,hi;
+  if(lv===1){lo=0;hi=BAND_L1;} else if(lv===2){lo=BAND_L1;hi=BAND_L2;} else {lo=BAND_L2;hi=100;}
+  const pos=(p-lo)/(hi-lo);
+  return pos<1/3?1:(pos<2/3?2:3);
+}
+function compute(answers){
+  return QUADRANTS.map(q=>{
+    const items = q.items.map(it=>{
+      const raw = answers[it.id];
+      const adj = it.reverse ? 6-raw : raw;
+      return {id:it.id,sub:it.sub,text:it.text,reverse:!!it.reverse,raw,adj};
+    });
+    const avg = items.reduce((s,x)=>s+x.adj,0)/items.length;
+    const pct = Math.round((avg-1)/4*100);
+    const lv = levelOf(pct), ph = phaseOf(pct,lv);
+    const subs = q.subs.map(sn=>{
+      const si = items.filter(x=>x.sub===sn);
+      const a = si.reduce((s,x)=>s+x.adj,0)/si.length;
+      return {name:sn,avg:a,pct:Math.round((a-1)/4*100)};
+    });
+    return {q,items,avg,pct,lv,ph,subs,v:1+2*(pct/100)};
+  });
+}
+function validityCheck(answers){
+  const raws = Object.values(answers);
+  const N = raws.length;
+  const cnt = [0,0,0,0,0];
+  raws.forEach(r=>cnt[r-1]++);
+  const maxShare = Math.max(...cnt)/N;
+  const midShare = cnt[2]/N;
+  const extShare = (cnt[0]+cnt[4])/N;
+  const notes = [];
+  if(maxShare>=0.6){
+    const v = cnt.indexOf(Math.max(...cnt))+1;
+    notes.push("你有 "+Math.round(maxShare*100)+"% 的题选了同一个选项（「"+LABELS[v-1]+"」），结果可能无法区分你的象限差异，建议之后按真实状态重测。");
+  }
+  if(midShare>=0.55 && maxShare<0.6) notes.push("你有 "+Math.round(midShare*100)+"% 的题选了「一般」，结果会向中间级别集中；如果这不代表你的真实状态，重测会更准。");
+  if(extShare>=0.75) notes.push("你的作答高度集中在两端（完全符合/完全不符合），可能高估了级别的分化程度。");
+  return notes;
+}
+
+/* ================= 完成与加载 ================= */
+function finishQuiz(){
+  clearTimeout(answering);
+  const missing = flatItems().findIndex(f=>state.answers[f.it.id]===undefined);
+  if(missing>=0){
+    state.idx = missing; save(); show("s-quiz"); renderQuestion();
+    toast("还有题目未作答，已为你跳回第 "+(missing+1)+" 题");
+    return;
+  }
+  document.getElementById("qFill").style.width = "100%";
+  state.done = true;
+  const now = new Date();
+  state.date = now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
+  save();
+  show("s-loading");
+  const lines = [
+    "正在汇总 "+total()+" 条作答…",
+    "正在定位你的四象限坐标…",
+    "正在合成你的 Metatype…"
+  ];
+  const box = document.getElementById("loadLines");
+  box.innerHTML = lines.map(l=>'<div class="ll">'+l+'</div>').join("");
+  const els = box.querySelectorAll(".ll");
+  els.forEach((el,i)=>{
+    setTimeout(()=>{ els.forEach((e2,j)=>{ if(j<i) e2.classList.add("done"); }); el.classList.add("on"); }, i*750);
+  });
+  setTimeout(()=>{ els.forEach(e=>e.classList.add("done")); }, lines.length*750+300);
+  setTimeout(()=>{ buildReport(state.answers, state.name, state.date, true); }, lines.length*750+1050);
+}
+
+/* ================= 报告 ================= */
+let lastResults = null, lastMeta = null, lastPattern = null;
+
+function viewLast(){
+  let last = null;
+  try{ last = JSON.parse(localStorage.getItem(LKEY)); }catch(e){}
+  if(!last) return;
+  buildReport(last.answers, last.name, last.date, false, last.meta);
+}
+
+function buildReport(answers, name, dateStr, isNew, prevMetaArg){
+  const res = compute(answers);
+  const meta = res.reduce((s,r)=>s+r.v,0)/4;
+  const tier = meta<1.67 ? "Human 1.0 段 · 遵循者" : (meta<2.33 ? "Human 2.0 段 · 自主者" : "Human 3.0 段 · 合成者");
+  const sorted = [...res].sort((a,b)=>a.pct-b.pct);
+  const weak = sorted[0], strong = sorted[sorted.length-1];
+  const gap = Math.round(strong.pct-weak.pct);
+  const pattern = detectPattern(res);
+  const validNotes = validityCheck(answers);
+
+  // 保存/对比上次
+  let prevMeta = prevMetaArg;
+  if(isNew){
+    let prev = null;
+    try{ prev = JSON.parse(localStorage.getItem(LKEY)); }catch(e){}
+    if(prev && prev.meta!==undefined) prevMeta = prev.meta;
+    try{ localStorage.setItem(LKEY, JSON.stringify({answers,name,date:dateStr,meta,tier})); }catch(e){}
+  }
+  let deltaHtml = "";
+  if(prevMeta!==undefined && prevMeta!==null && Math.abs(meta-prevMeta)>=0.05){
+    const d = meta-prevMeta;
+    deltaHtml = '<div class="delta">较上次 '+(d>0?"+":"")+d.toFixed(1)+" ▶</div>";
+  }
+
+  lastResults = res; lastMeta = meta; lastPattern = pattern;
+
+  const who = name ? name+" 的" : "你的";
+  let html = '';
+  html += '<div class="rp-head">'+
+    '<div class="kicker">Assessment Report · Human 3.0</div>'+
+    '<h1>'+who+'四象限人生战略档案</h1>'+
+    '<div class="rp-meta">测评日期 '+dateStr+' · 34 ITEMS · MODEL: D. KOE HUMAN 3.0</div>'+
+  '</div>';
+
+  if(validNotes.length){
+    html += '<div class="valid-box">作答风格提示：'+validNotes.join("<br>")+'</div>';
+  }
+
+  html += '<div class="mt-box">'+
+    '<div class="mt-score">'+
+      '<div class="lab">METATYPE 总发展分</div>'+
+      '<div class="val">'+meta.toFixed(1)+'<small> / 3.0</small></div>'+
+      '<div class="tier">'+tier+'</div>'+ deltaHtml +
+    '</div>'+
+    '<div class="mt-body">'+
+      '<div class="codename">你的原型代号：<span>'+pattern.name+'</span></div>'+
+      '<p>'+overallLine(res, meta, weak, strong)+'</p>'+
+      '<p>按 Dan Koe 的定义，你目前在「'+strong.q.name+'」象限最接近 <b>'+strong.q.arch[strong.lv-1]+'</b>（'+strong.q.archDef[strong.lv-1]+'），在「'+weak.q.name+'」象限最接近 <b>'+weak.q.arch[weak.lv-1]+'</b>（'+weak.q.archDef[weak.lv-1]+'）。下文逐象限给出级别判定、具体依据与下一阶段建议。</p>'+
+    '</div>'+
+  '</div>';
+
+  html += '<div class="rp-nav">'+
+    '<a href="#sec-overview">总览</a><a href="#q-mind">心智</a><a href="#q-body">身体</a>'+
+    '<a href="#q-spirit">精神</a><a href="#q-vocation">事业</a><a href="#sec-plan">90天计划</a>'+
+  '</div>';
+
+  html += '<details class="legend-box"><summary>读法速查：级别 · 阶段 · 原型</summary>'+
+    '<div class="lg-body">'+
+      '<div class="lg-sec"><b>级别（整数）</b>——你在这个象限的整体发展水位：'+
+        '<span class="lg-line"><i class="dot l1"></i>L1 遵循者：按继承的剧本运行</span>'+
+        '<span class="lg-line"><i class="dot l2"></i>L2 自主者：建立自己的标准</span>'+
+        '<span class="lg-line"><i class="dot l3"></i>L3 合成者：多视角综合成路径</span>'+
+      '</div>'+
+      '<div class="lg-sec"><b>阶段（小数）</b>——你在该级别内走到哪一步，如「2.1」= 自主者的失谐期：'+
+        '<span class="lg-line">.1 失谐：对当前阶段开始腻味，说不清下一步</span>'+
+        '<span class="lg-line">.2 不确定：已踏入未知，正在补知识与技能</span>'+
+        '<span class="lg-line">.3 发现：找到工具与路径，即将跨级</span>'+
+      '</div>'+
+      '<div class="lg-sec"><b>原型（进阶链条）</b>——Dan Koe 用游戏角色比喻每个级别的典型状态，四象限各自的链条是：'+
+        '<span class="lg-line">心智：剧本执行者 → 玩家 → 创造者</span>'+
+        '<span class="lg-line">身体：被习惯支配 → 状态管理者 → 系统设计者</span>'+
+        '<span class="lg-line">精神：继承的信仰 → 反叛的怀疑 → 个人化整合</span>'+
+        '<span class="lg-line">事业：职位 → 职业 → 志业</span>'+
+        '每个原型的具体含义见对应象限的「原型进阶」栏。'+
+      '</div>'+
+    '</div>'+
+  '</details>';
+
+  html += '<div class="radar-wrap" id="sec-overview">'+ radarSVG(res) +
+    '<div class="legend">'+
+      '<div class="lr"><i style="background:var(--l1)"></i>L1 遵循者 · 0–44 分：按继承的剧本运行</div>'+
+      '<div class="lr"><i style="background:var(--l2)"></i>L2 自主者 · 45–69 分：建立自己的标准</div>'+
+      '<div class="lr"><i style="background:var(--l3)"></i>L3 合成者 · 70–100 分：多视角综合成路径</div>'+
+      '<div class="div">优势 '+strong.q.name+' '+strong.pct+' · 短板 '+weak.q.name+' '+weak.pct+' · 落差 '+gap+' 分</div>'+
+    '</div>'+
+  '</div>';
+
+  res.forEach(r=>{ html += quadrantBlock(r); });
+  html += patternBox(pattern, res, weak, strong, gap);
+  html += planBlock(res, weak, strong);
+
+  html += '<div class="rp-actions">'+
+    '<button class="btn" onclick="makeCard(\'lite\')">生成长图 · 精简版</button>'+
+    '<button class="btn ghost" onclick="makeCard(\'full\')">生成长图 · 完整版</button>'+
+    '<button class="btn ghost" onclick="copyShare()">复制分享文案</button>'+
+    '<button class="btn ghost" onclick="window.print()">打印 / 存 PDF</button>'+
+    '<button class="btn ghost" onclick="restart()">重新测评</button>'+
+  '</div>';
+
+  html += '<div class="footnote">'+
+    '模型来源：Dan Koe,《HUMAN 3.0 – A Map To Reach The Top 1%》, 2025, thedankoe.com（四象限改编自 Ken Wilber AQAL；级别理论参考 Spiral Dynamics 等发展阶段研究）。<br>'+
+    '计分：题目 1–5 分（含反向计分）→ 象限分 0–100；&lt;45 → L1，45–69 → L2，≥70 → L3；阶段按级别内位置划分；总发展分 = 四象限级别值均值。<br>'+
+    '边界：本报告为自评式发展定位工具，用于人生战略规划参考，不构成医学或心理临床诊断；自评受当下状态影响，建议间隔 3–6 个月复测对比。'+
+  '</div>';
+
+  document.getElementById("reportInner").innerHTML = html;
+  show("s-report");
+}
+
+function overallLine(res, meta, weak, strong){
+  const l3n = res.filter(r=>r.lv===3).length;
+  const l1n = res.filter(r=>r.lv===1).length;
+  const spread = Math.max(...res.map(r=>r.pct))-Math.min(...res.map(r=>r.pct));
+  if(l3n===4) return "四个象限全部进入 L3，你已处在模型中的「合成者」区间——重点从「升级」转向创造新的游戏。";
+  if(l1n===4) return "四个象限都处于 L1 区间，你目前整体在按继承来的剧本运行——这是改变的起点，不是评判。";
+  if(spread<=15) return "四象限发展相当均衡，没有明显塌陷；下一阶段的突破需要主动选定一个象限加注。";
+  return "你的发展呈明显非均衡态："+strong.q.name+"最强（L"+strong.lv+"），"+weak.q.name+"最弱（L"+weak.lv+"）——下面逐象限给出判定依据与跨级策略。";
+}
+
+function detectPattern(res){
+  const map = {
+    vocation:{n:"蓝图者",t:"心智与精神的思考已经跑到前面，但还没有翻译成可运行的职业系统。你的主要风险不是想得不够，而是蓝图长期不落地会被自我怀疑反噬——把最弱的一条行动拆成 90 天可交付的最小闭环。"},
+    body:{n:"透支者",t:"你在用一副未被照顾的身体承载其他象限的野心。身体是所有象限的载体：它塌陷时，心智的自控、事业的产出会先于你预期地一起下滑。先修复载体，再谈加速。"},
+    mind:{n:"跟随者风险",t:"判断与情绪仍在较大程度上被外部脚本驱动，这会让其他象限的努力被一次心态波动清零。你缺的不是信息，而是自己的判断标准——先建立「我如何决定」的内部流程。"},
+    spirit:{n:"空转者",t:"其他象限在推进，但意义感与真实关系没有同步。短期靠惯性可以跑，长期会在某一天突然失去动力。把「为什么做」重新写清楚，比多做一件事更紧急。"}
+  };
+  const spread = Math.max(...res.map(r=>r.pct))-Math.min(...res.map(r=>r.pct));
+  if(spread<=12) return {name:"均衡待突破型",text:"四个象限分差不超过 12 分：你没有明显塌陷，但均衡不等于发展。下一阶段的打法是主动选定一个象限加注到 L3，用单点突破带动整体——均衡是底盘，不是终点。"};
+  const weak = [...res].sort((a,b)=>a.pct-b.pct)[0];
+  const p = map[weak.q.key];
+  return {name:p.n, text:p.t};
+}
+
+function patternBox(pattern, res, weak, strong, gap){
+  return '<div class="pattern-box" id="sec-pattern">'+
+    '<div class="kicker">Synthesis · 综合诊断</div>'+
+    '<h3>你的失衡模式：<span>'+pattern.name+'</span></h3>'+
+    '<p>'+pattern.text+'</p>'+
+    '<p>落差结构：优势「'+strong.q.name+' L'+strong.lv+'」↔ 短板「'+weak.q.name+' L'+weak.lv+'」，相差 '+gap+' 分。'+
+    '各级别是「超越并包含」而非替换——你在 '+strong.q.name+' 已建立的「'+strong.q.arch[strong.lv-1]+'」能力，正是拉起 '+weak.q.name+' 的杠杆。</p>'+
+  '</div>';
+}
+
+function radarSVG(res){
+  const C=160,R=112;
+  const order={mind:0,body:1,vocation:2,spirit:3};
+  const angles=[-90,0,90,180];
+  const pts=res.map(r=>{
+    const a=angles[order[r.q.key]]*Math.PI/180, rr=R*r.pct/100;
+    return [C+rr*Math.cos(a), C+rr*Math.sin(a)];
+  });
+  const ring=pct=>angles.map(a0=>{
+    const a=a0*Math.PI/180, rr=R*pct/100;
+    return (C+rr*Math.cos(a))+","+(C+rr*Math.sin(a));
+  }).join(" ");
+  const labels=[
+    {t:"心智",x:C,y:C-R-14,a:"middle"},
+    {t:"身体",x:C+R+14,y:C+5,a:"start"},
+    {t:"事业",x:C,y:C+R+26,a:"middle"},
+    {t:"精神",x:C-R-14,y:C+5,a:"end"}
+  ];
+  const sm={}; res.forEach(r=>sm[r.q.key]=r.pct);
+  return '<svg viewBox="0 0 320 320" width="100%" style="max-width:320px;display:block;margin:0 auto">'+
+    '<polygon points="'+ring(45)+'" fill="none" stroke="var(--l2)" stroke-opacity=".4" stroke-dasharray="3 4"/>'+
+    '<polygon points="'+ring(70)+'" fill="none" stroke="var(--l3)" stroke-opacity=".4" stroke-dasharray="3 4"/>'+
+    '<polygon points="'+ring(100)+'" fill="none" stroke="var(--line)"/>'+
+    angles.map(a0=>{const a=a0*Math.PI/180;return '<line x1="'+C+'" y1="'+C+'" x2="'+(C+R*Math.cos(a))+'" y2="'+(C+R*Math.sin(a))+'" stroke="var(--line)"/>';}).join("")+
+    '<polygon points="'+pts.map(p=>p.join(",")).join(" ")+'" fill="rgba(201,242,77,.13)" stroke="var(--pine)" stroke-width="2"/>'+
+    pts.map(p=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="4" fill="var(--pine)"/>').join("")+
+    labels.map(l=>'<text x="'+l.x+'" y="'+l.y+'" text-anchor="'+l.a+'" fill="var(--ink-soft)" font-size="13">'+l.t+'</text>').join("")+
+    '<text x="'+(C+8)+'" y="'+(C-R*0.45)+'" fill="var(--pine)" font-size="11" font-family="monospace">'+sm.mind+'</text>'+
+    '<text x="'+(C+R*0.5)+'" y="'+(C-8)+'" fill="var(--pine)" font-size="11" font-family="monospace">'+sm.body+'</text>'+
+    '<text x="'+(C+8)+'" y="'+(C+R*0.55)+'" fill="var(--pine)" font-size="11" font-family="monospace">'+sm.vocation+'</text>'+
+    '<text x="'+(C-R*0.55)+'" y="'+(C-8)+'" fill="var(--pine)" font-size="11" font-family="monospace">'+sm.spirit+'</text>'+
+  '</svg>';
+}
+
+function quadrantBlock(r){
+  const q=r.q, lv=r.lv, ph=r.ph;
+  const lvName={1:"遵循者 Conformist",2:"自主者 Individualist",3:"合成者 Synthesist"}[lv];
+  const phase=PHASES[ph-1];
+  const subsSorted=[...r.subs].sort((a,b)=>b.avg-a.avg);
+  const hiSub=subsSorted[0], loSub=subsSorted[subsSorted.length-1];
+  const byAdj=[...r.items].sort((a,b)=>a.adj-b.adj);
+  let support;
+  if(lv===1) support=byAdj.slice(0,3);
+  else if(lv===3) support=byAdj.slice(-3).reverse();
+  else{
+    const mid=[...r.items].sort((a,b)=>Math.abs(a.adj-3)-Math.abs(b.adj-3));
+    support=mid.slice(0,2).concat([byAdj[0],byAdj[byAdj.length-1]]);
+  }
+  const evidP=support.map(it=>{
+    const tag=it.reverse?"（反向题，折算 "+it.adj+" 分）":"";
+    return '<p>「<span class="q">'+it.text+'</span>」→ 作答「<span class="a">'+LABELS[it.raw-1]+'</span>」'+tag+'</p>';
+  }).join("");
+  const markerPos=Math.min(98,Math.max(1,r.pct));
+
+  return '<div class="rq" id="q-'+q.key+'">'+
+    '<div class="rq-head">'+
+      '<div class="t"><span class="no">'+q.idx+'</span><h3>'+q.name+'</h3><span class="en">'+q.en+'</span></div>'+
+      '<div class="badge lv'+lv+'">L'+lv+' · '+lvName+'<span class="ph">阶段 '+lv+'.'+ph+' '+phase.name.split(" ")[0]+'</span></div>'+
+    '</div>'+
+    '<div class="rq-body">'+
+      '<div class="row"><div class="rlab">定位 · '+r.pct+' / 100</div>'+
+        '<div class="levelbar">'+
+          '<div class="seg"><b>L1 遵循</b></div><div class="seg"><b>L2 自主</b></div><div class="seg"><b>L3 合成</b></div>'+
+          '<div class="marker" data-v="'+r.pct+'" style="left:'+markerPos+'%"></div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="row"><div class="rlab">诊断</div>'+
+        '<div class="diag">'+q.levels[lv].d+'</div>'+
+        '<ul class="traits">'+q.levels[lv].t.map(t=>'<li>'+t+'</li>').join("")+'</ul>'+
+      '</div>'+
+      '<div class="row"><div class="rlab">子维度得分</div>'+
+        '<div class="subscores">'+
+          r.subs.map(s=>'<div class="subscore"><div class="n"><span>'+s.name+'</span><b>'+s.avg.toFixed(1)+' / 5</b></div>'+
+            '<div class="track"><div class="fill" style="width:'+s.pct+'%"></div></div></div>').join("")+
+        '</div>'+
+      '</div>'+
+      '<div class="row"><div class="rlab">具体依据 · 可回溯到原始作答</div>'+
+        '<div class="evid">'+
+          '<p>本象限均分 <span class="a">'+r.avg.toFixed(2)+' / 5</span>（折算 '+r.pct+' 分 → 判定 L'+lv+'）。'+
+          '子维度中「'+hiSub.name+'」最高（'+hiSub.avg.toFixed(1)+'），「'+loSub.name+'」最低（'+loSub.avg.toFixed(1)+'）。</p>'+
+          evidP+
+        '</div>'+
+      '</div>'+
+      '<div class="row"><div class="rlab">原型进阶 · 你正处在链条的哪一格</div>'+
+        '<div class="arc-flow">'+
+          q.arch.map((a,i)=>
+            '<div class="st'+(i+1===lv?' on':'')+'">'+
+              '<div class="st-name">'+(i+1===lv?'▸ ':'')+a+'</div>'+
+              '<div class="st-def">'+q.archDef[i]+'</div>'+
+            '</div>'
+          ).join('<div class="arw">→</div>')+
+        '</div>'+
+        '<div class="arc-note">按 Dan Koe 的定义，你在本象限最接近 <b>'+q.arch[lv-1]+'</b>——'+q.archDef[lv-1]+'。其余两格是你的来路或下一格。</div>'+
+      '</div>'+
+      '<div class="row"><div class="rlab">当前阶段 · '+lv+'.'+ph+'</div>'+
+        '<div class="phasebox"><b>'+phase.name+'</b>——'+phase.desc+'<br>阶段功课：'+phase.adv+'</div>'+
+      '</div>'+
+      '<div class="row"><div class="rlab">下一步行动</div>'+
+        '<div class="phasebox"><b>'+(lv===3?"维持与输出":("L"+lv+" → L"+Math.min(3,lv+1)+" 跨级策略"))+'：</b>'+q.act[lv]+'</div>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+}
+
+function planBlock(res, weak, strong){
+  const sorted=[...res].sort((a,b)=>a.pct-b.pct);
+  const second=sorted[1];
+  const phase=PHASES[weak.ph-1];
+  return '<div class="plan" id="sec-plan">'+
+    '<div class="kicker">90-Day Action Plan</div>'+
+    '<h3>下一阶段行动计划</h3>'+
+    '<p class="plan-lead">测评的价值在做完之后的改变——把这四条贴在你每天能看到的地方，做完一项打一个勾。</p>'+
+    '<ol>'+
+      '<li><b>主攻 · '+weak.q.name+'象限（L'+weak.lv+' · 阶段 '+weak.lv+'.'+weak.ph+'）</b><br>'+
+        weak.q.act[weak.lv]+'<br><span class="sm">阶段功课：'+phase.adv+'</span></li>'+
+      '<li><b>次攻 · '+second.q.name+'象限（L'+second.lv+'）</b><br>'+second.q.act[second.lv]+'</li>'+
+      '<li><b>维持 · '+strong.q.name+'象限（L'+strong.lv+' · 优势）</b><br>'+
+        (strong.lv===3
+          ? "把已成形的系统输出为方法或教学，用「创造新游戏」的方式维持该象限的复杂度。"
+          : "保持现有节奏不加码，省下的意志力集中给最弱象限；优势象限的下一跳是它的通道：<b>"+strong.q.channel+"</b>")+
+      '</li>'+
+      '<li><b>复测节奏</b><br>90 天后重新完成本测评，对比四象限分数与阶段变化；单象限提升 ≥10 分即视为跨级推进有效。</li>'+
+    '</ol>'+
+  '</div>';
+}
+
+/* ================= 分享长图（Canvas 1080 × 自适应高） ================= */
+let cardDataUrl = null, cardMode = "lite";
+function makeCard(mode){
+  mode = mode || "lite";
+  const lite = mode !== "full";
+  if(!lastResults){ toast("请先完成测评"); return; }
+  const res = lastResults, meta = lastMeta, pattern = lastPattern;
+  const sorted=[...res].sort((a,b)=>a.pct-b.pct);
+  const weak=sorted[0], strong=sorted[sorted.length-1], second=sorted[1];
+  const gap=Math.round(strong.pct-weak.pct);
+  const W=1080, M=72, CW=W-M*2;
+  const c=document.createElement("canvas");
+  c.width=W; c.height=5600;
+  const g=c.getContext("2d");
+  const INK="#EDEAE0", SOFT="#A6AD9E", FAINT="#6B7266", LINE="#2C332C",
+        ACID="#C9F24D", GOLD="#C9A66B", BLUE="#6FA8E6", BG="#0E110E", PANEL="#131713", TRACK="#232A22";
+  const LV=[GOLD,BLUE,ACID];
+  const SERIF='"Songti SC","STSong",serif',
+        SANS='"PingFang SC","Hiragino Sans GB",sans-serif',
+        MONO='"SF Mono","Menlo",monospace';
+
+  g.textAlign="left";
+  g.fillStyle=BG; g.fillRect(0,0,W,c.height);
+  g.fillStyle="rgba(201,242,77,.045)";
+  g.beginPath(); g.ellipse(150,170,540,330,0,0,Math.PI*2); g.fill();
+  g.fillStyle="rgba(201,166,107,.035)";
+  g.beginPath(); g.ellipse(940,4300,520,330,0,0,Math.PI*2); g.fill();
+
+  const measure=(text,maxW)=>{
+    const lines=[]; let line="";
+    for(const ch of String(text)){
+      if(g.measureText(line+ch).width>maxW && line){ lines.push(line); line=ch; }
+      else line+=ch;
+    }
+    if(line) lines.push(line);
+    return lines;
+  };
+  const drawLines=(lines,x,y,lh)=>{ lines.forEach(l=>{ g.fillText(l,x,y); y+=lh; }); return y; };
+  const wrapDraw=(text,x,y,maxW,lh)=>drawLines(measure(text,maxW),x,y,lh);
+  const panel=(x,y,w,h,border)=>{
+    g.fillStyle=PANEL; g.fillRect(x,y,w,h);
+    g.strokeStyle=border||LINE; g.lineWidth=1; g.strokeRect(x+.5,y+.5,w-1,h-1);
+  };
+
+  /* ---- 头部 ---- */
+  let y=M+56;
+  g.textAlign="center";
+  g.font='400 22px '+MONO; g.fillStyle=FAINT;
+  g.fillText("HUMAN 3.0 · SELF-ASSESSMENT", W/2, y); y+=64;
+  g.font='900 62px '+SERIF; g.fillStyle=INK;
+  g.fillText("人生规划四象限档案", W/2, y); y+=54;
+  g.font='400 26px '+SANS; g.fillStyle=SOFT;
+  g.fillText((state.name? state.name+" · ":"")+(state.date||""), W/2, y); y+=42;
+  g.strokeStyle=LINE; g.lineWidth=2;
+  g.beginPath(); g.moveTo(M+60,y); g.lineTo(W-M-60,y); g.stroke(); y+=76;
+
+  /* ---- 总发展分 ---- */
+  const tier = meta<1.67?"Human 1.0 · 遵循者":(meta<2.33?"Human 2.0 · 自主者":"Human 3.0 · 合成者");
+  const p1h=368;
+  panel(M,y,CW,p1h);
+  g.textAlign="center";
+  g.font='400 22px '+MONO; g.fillStyle=FAINT;
+  g.fillText("METATYPE · 总发展分", W/2, y+56);
+  g.font='700 128px '+MONO; g.fillStyle=ACID;
+  const scoreStr=meta.toFixed(1);
+  g.fillText(scoreStr, W/2-8, y+200);
+  const sw=g.measureText(scoreStr).width;
+  g.font='400 30px '+MONO; g.fillStyle=FAINT;
+  g.fillText("/ 3.0", W/2-8+sw/2+22, y+200);
+  g.font='700 40px '+SERIF; g.fillStyle=INK;
+  g.fillText(tier, W/2, y+266);
+  g.font='700 32px '+SERIF; g.fillStyle=GOLD;
+  g.fillText("原型代号：" + pattern.name, W/2, y+318);
+  y+=p1h;
+
+  /* ---- 总述 ---- */
+  y+=48;
+  g.textAlign="left";
+  g.font='400 27px '+SANS; g.fillStyle=SOFT;
+  y=wrapDraw(overallLine(res, meta, weak, strong), M+6, y, CW-12, 46);
+  if(lite){
+    g.font='400 25px '+SANS; g.fillStyle=FAINT;
+    y=wrapDraw("优势「"+strong.q.name+"」→ "+strong.q.arch[strong.lv-1]+" · 待发展「"+weak.q.name+"」→ "+weak.q.arch[weak.lv-1]+"（原型定义见网页报告）", M+6, y+12, CW-12, 44);
+    y+=52;
+  }else{
+    y+=8;
+    y=wrapDraw("优势象限「"+strong.q.name+"」最接近「"+strong.q.arch[strong.lv-1]+"」——"+strong.q.archDef[strong.lv-1]
+      +"；待发展象限「"+weak.q.name+"」最接近「"+weak.q.arch[weak.lv-1]+"」——"+weak.q.archDef[weak.lv-1]+"。", M+6, y, CW-12, 46);
+    y+=64;
+  }
+
+  /* ---- 四象限总览：雷达 + 四条 ---- */
+  const p2y=y, p2h=576;
+  panel(M,p2y,CW,p2h);
+  g.font='400 22px '+MONO; g.fillStyle=FAINT;
+  g.fillText("QUADRANTS · 四象限定位", M+28, p2y+48);
+  const CX=M+236, CY=p2y+310, R=162;
+  const order={mind:0,body:1,vocation:2,spirit:3};
+  const angles=[-90,0,90,180];
+  const pt=(key,pct)=>{
+    const a=angles[order[key]]*Math.PI/180, rr=R*pct/100;
+    return [CX+rr*Math.cos(a), CY+rr*Math.sin(a)];
+  };
+  [100,70,45].forEach(p=>{
+    g.strokeStyle = p===100?LINE:(p===70?"rgba(201,242,77,.5)":"rgba(111,168,230,.5)");
+    g.setLineDash(p===100?[]:[6,7]);
+    g.beginPath();
+    angles.forEach((a0,i)=>{
+      const a=a0*Math.PI/180, rr=R*p/100;
+      const x=CX+rr*Math.cos(a), yy=CY+rr*Math.sin(a);
+      i?g.lineTo(x,yy):g.moveTo(x,yy);
+    });
+    g.closePath(); g.stroke();
+  });
+  g.setLineDash([]);
+  angles.forEach(a0=>{
+    const a=a0*Math.PI/180;
+    g.strokeStyle=LINE;
+    g.beginPath(); g.moveTo(CX,CY); g.lineTo(CX+R*Math.cos(a),CY+R*Math.sin(a)); g.stroke();
+  });
+  g.beginPath();
+  res.forEach((r,i)=>{
+    const [x,yy]=pt(r.q.key,r.pct);
+    i?g.lineTo(x,yy):g.moveTo(x,yy);
+  });
+  g.closePath();
+  g.fillStyle="rgba(201,242,77,.13)"; g.fill();
+  g.strokeStyle=ACID; g.lineWidth=4; g.stroke();
+  res.forEach(r=>{
+    const [x,yy]=pt(r.q.key,r.pct);
+    g.beginPath(); g.arc(x,yy,7,0,Math.PI*2); g.fillStyle=ACID; g.fill();
+  });
+  g.font='700 28px '+SERIF; g.fillStyle=SOFT; g.textAlign="center";
+  const lmr=R+38;
+  g.fillText("心智", CX, CY-lmr+10);
+  g.fillText("身体", CX+lmr, CY+10);
+  g.fillText("事业", CX, CY+lmr+10);
+  g.fillText("精神", CX-lmr, CY+10);
+  // 右侧四条
+  const bx0=M+520, bw0=W-M-28-bx0;
+  g.textAlign="left";
+  res.forEach((r,i)=>{
+    const ry=p2y+160+i*98;
+    g.font='900 30px '+SERIF; g.fillStyle=INK;
+    g.fillText(r.q.name, bx0, ry);
+    const nw=g.measureText(r.q.name).width;
+    g.font='400 20px '+MONO; g.fillStyle=LV[r.lv-1];
+    g.fillText("L"+r.lv+" · "+PHASES[r.ph-1].name.split(" ")[0], bx0+nw+16, ry-2);
+    g.font='700 30px '+MONO; g.fillStyle=INK; g.textAlign="right";
+    g.fillText(r.pct+"", W-M-28, ry);
+    g.textAlign="left";
+    g.fillStyle=TRACK; g.fillRect(bx0, ry+18, bw0, 12);
+    g.fillStyle=LV[r.lv-1]; g.fillRect(bx0, ry+18, bw0*r.pct/100, 12);
+    const subs=[...r.subs].sort((a,b)=>b.avg-a.avg);
+    g.font='400 20px '+SANS; g.fillStyle=FAINT;
+    g.fillText("强项 "+subs[0].name+" "+subs[0].avg.toFixed(1)+" · 弱项 "+subs[subs.length-1].name+" "+subs[subs.length-1].avg.toFixed(1), bx0, ry+56);
+  });
+  y=p2y+p2h;
+
+  if(mode==="full"){
+    /* ---- 四个象限诊断块 ---- */
+    res.forEach(r=>{
+      const q=r.q, ph=PHASES[r.ph-1];
+      const innerW=CW-56;
+      g.font='400 26px '+SANS;
+      const diagL=measure(q.levels[r.lv].d, innerW);
+      g.font='400 25px '+SANS;
+      const archL=measure("当前原型「"+q.arch[r.lv-1]+"」："+q.archDef[r.lv-1], innerW);
+      const nextL=measure("下一步："+q.act[r.lv], innerW);
+      const bh=44+52+diagL.length*44+16+40+archL.length*42+16+nextL.length*42+40;
+      y+=26;
+      panel(M,y,CW,bh);
+      // 标题行
+      g.font='900 36px '+SERIF; g.fillStyle=INK;
+      g.fillText(q.name, M+28, y+58);
+      const nw=g.measureText(q.name).width;
+      g.font='400 21px '+MONO; g.fillStyle=LV[r.lv-1];
+      g.fillText(q.en, M+28+nw+18, y+56);
+      g.font='700 34px '+MONO; g.fillStyle=INK; g.textAlign="right";
+      g.fillText("L"+r.lv+" · "+r.lv+"."+r.ph+" "+ph.name.split(" ")[0], W-M-28, y+58);
+      g.textAlign="left";
+      // 诊断
+      let ty=y+112;
+      g.font='400 26px '+SANS; g.fillStyle=SOFT;
+      ty=drawLines(diagL, M+28, ty, 44)+16;
+      // 子维度高低
+      const subs=[...r.subs].sort((a,b)=>b.avg-a.avg);
+      g.font='400 23px '+SANS; g.fillStyle=FAINT;
+      ty=wrapDraw("强项 "+subs[0].name+" "+subs[0].avg.toFixed(1)+" · 弱项 "+subs[subs.length-1].name+" "+subs[subs.length-1].avg.toFixed(1), M+28, ty, innerW, 40)+16;
+      // 原型
+      g.font='400 25px '+SANS; g.fillStyle=SOFT;
+      ty=drawLines(archL, M+28, ty, 42)+16;
+      // 下一步
+      g.font='400 25px '+SANS; g.fillStyle=ACID;
+      ty=drawLines(nextL, M+28, ty, 42);
+      y+=bh;
+    });
+
+    /* ---- 失衡模式 ---- */
+    y+=34;
+    g.font='400 27px '+SANS;
+    const patL=measure(pattern.text, CW-56);
+    const gapL=measure("落差结构：优势「"+strong.q.name+" L"+strong.lv+"」↔ 短板「"+weak.q.name+" L"+weak.lv+"」，相差 "+gap+" 分；你在"+strong.q.name+"已建立的能力，正是拉起"+weak.q.name+"的杠杆。", CW-56);
+    const p3h=56+52+patL.length*46+18+gapL.length*42+40;
+    panel(M,y,CW,p3h,"rgba(201,166,107,.6)");
+    g.font='400 22px '+MONO; g.fillStyle=GOLD;
+    g.fillText("SYNTHESIS · 失衡模式", M+28, y+48);
+    g.font='700 32px '+SERIF; g.fillStyle=GOLD;
+    g.fillText(pattern.name, M+28, y+100);
+    let py=y+152;
+    g.font='400 27px '+SANS; g.fillStyle=SOFT;
+    py=drawLines(patL, M+28, py, 46)+18;
+    g.font='400 24px '+SANS; g.fillStyle=FAINT;
+    py=drawLines(gapL, M+28, py, 42);
+    y+=p3h;
+  } else {
+    /* ---- 失衡模式（精简：只留模式名与落差结构） ---- */
+    y+=34;
+    g.font='400 25px '+SANS;
+    const gapL=measure("落差结构：优势「"+strong.q.name+" L"+strong.lv+"」↔ 短板「"+weak.q.name+" L"+weak.lv+"」，相差 "+gap+" 分；你在"+strong.q.name+"已建立的能力，正是拉起"+weak.q.name+"的杠杆。", CW-56);
+    const p3h=56+58+gapL.length*44+44;
+    panel(M,y,CW,p3h,"rgba(201,166,107,.6)");
+    g.font='400 22px '+MONO; g.fillStyle=GOLD;
+    g.fillText("SYNTHESIS · 失衡模式", M+28, y+48);
+    g.font='700 34px '+SERIF; g.fillStyle=GOLD;
+    g.fillText(pattern.name, M+28, y+106);
+    g.font='400 25px '+SANS; g.fillStyle=SOFT;
+    drawLines(gapL, M+28, y+164, 44);
+    y+=p3h;
+  }
+
+  /* ---- 90 天行动计划（打勾框 · 报告的落点） ---- */
+  y+=34;
+  const phase=PHASES[weak.ph-1];
+  const planItems=[
+    {t:"主攻 · "+weak.q.name+"象限（L"+weak.lv+" · "+weak.lv+"."+weak.ph+"）", c:weak.q.act[weak.lv], adv:phase.adv, hot:true},
+    {t:"次攻 · "+second.q.name+"象限（L"+second.lv+"）", c:second.q.act[second.lv], adv:"", hot:false},
+    {t:"维持 · "+strong.q.name+"象限（L"+strong.lv+" · 优势）", c:(strong.lv===3
+        ?"把已成形的系统输出为方法或教学，用「创造新游戏」的方式维持复杂度。"
+        :"保持节奏不加码，省下的意志力集中给最弱象限；优势象限的下一跳是它的通道："+strong.q.channel), adv:"", hot:false},
+    {t:"复测 · 90 天后", c:"重新完成本测评，对比四象限分数与阶段变化；单象限提升 ≥10 分即视为跨级推进有效。", adv:"", hot:false}
+  ];
+  const CBS=lite?38:34, CBX=M+34, CTX=CBX+CBS+24, CTW=W-M-34-CTX;
+  let p4h=118;
+  const planLines=planItems.map(it=>{
+    g.font='700 30px '+SANS;
+    const tl=measure(it.t, CTW);
+    g.font='400 26px '+SANS;
+    const cl=measure(it.c, CTW);
+    let h=tl.length*44+6+cl.length*46+48;
+    if(it.adv){ const al=measure("阶段功课："+it.adv, CTW); h+=10+al.length*42; return {tl,cl,al,h}; }
+    return {tl,cl,al:null,h};
+  });
+  planLines.forEach(pl=>{ p4h+=pl.h; });
+  panel(M,y,CW,p4h, lite?"rgba(201,242,77,.55)":undefined);
+  g.font='400 22px '+MONO; g.fillStyle=ACID;
+  g.fillText("90-DAY ACTION PLAN · 90 天行动计划", M+34, y+50);
+  let ay=y+118;
+  planItems.forEach((it,i)=>{
+    g.strokeStyle=it.hot?ACID:"rgba(166,173,158,.85)";
+    g.lineWidth=3;
+    g.strokeRect(CBX+.5, ay-32, CBS, CBS);
+    g.font='700 30px '+SANS; g.fillStyle=it.hot?ACID:INK;
+    let ty=drawLines(planLines[i].tl, CTX, ay, 44);
+    g.font='400 26px '+SANS; g.fillStyle=SOFT;
+    ty=drawLines(planLines[i].cl, CTX, ty+8, 46);
+    if(planLines[i].al){
+      g.font='400 23px '+SANS; g.fillStyle=FAINT;
+      ty=drawLines(planLines[i].al, CTX, ty+12, 42);
+    }
+    ay=ty+40;
+    if(i<planItems.length-1){
+      g.strokeStyle=LINE; g.lineWidth=1;
+      g.beginPath(); g.moveTo(M+34, ay-22); g.lineTo(W-M-34, ay-22); g.stroke();
+    }
+  });
+  y+=p4h;
+
+  /* ---- 页脚 ---- */
+  y+=56;
+  g.strokeStyle=LINE; g.lineWidth=1;
+  g.beginPath(); g.moveTo(M+60,y); g.lineTo(W-M-60,y); g.stroke();
+  g.textAlign="center";
+  g.font='400 22px '+SANS; g.fillStyle=FAINT;
+  g.fillText("人生规划四象限测评 · 基于 Dan Koe《HUMAN 3.0》模型", W/2, y+42);
+  g.font='400 19px '+MONO;
+  g.fillText("MIND · BODY · SPIRIT · VOCATION · 34 ITEMS · SELF-ASSESSMENT", W/2, y+76);
+  y+=110;
+
+  /* ---- 裁到实际高度 ---- */
+  const H=Math.min(5600, Math.ceil(y));
+  const c2=document.createElement("canvas");
+  c2.width=W; c2.height=H;
+  c2.getContext("2d").drawImage(c,0,0);
+  cardDataUrl = c2.toDataURL("image/png");
+  cardMode = mode;
+  document.getElementById("cardImg").src = cardDataUrl;
+  document.getElementById("cmHint").textContent = lite
+    ? "精简版长图 · 完整诊断与定义见网页报告 · 手机长按保存 / 电脑点「下载长图」"
+    : "完整版长图 · 手机长按保存 / 电脑点「下载长图」";
+  document.getElementById("cardModal").classList.add("open");
+}
+function downloadCard(){
+  if(!cardDataUrl) return;
+  const a=document.createElement("a");
+  a.href=cardDataUrl;
+  a.download="Human3.0报告长图_"+(cardMode==="full"?"完整版":"精简版")+"_"+(state.name||"")+".png";
+  a.click();
+}
+function closeCard(){ document.getElementById("cardModal").classList.remove("open"); }
+
+/* ================= 分享文案 ================= */
+function copyShare(){
+  if(!lastResults){ toast("请先完成测评"); return; }
+  const res=lastResults, meta=lastMeta, pattern=lastPattern;
+  const parts=res.map(r=>r.q.name+" L"+r.lv).join(" · ");
+  const weak=[...res].sort((a,b)=>a.pct-b.pct)[0];
+  const txt="我做了「Human 3.0 人生规划四象限测评」：\n"+
+    "Human "+meta.toFixed(1)+" · "+pattern.name+
+    "（"+res.map(r=>r.q.name+" L"+r.lv).join(" / ")+"）\n"+
+    "四象限定位你在心智、身体、精神、事业的发展阶段（遵循者→自主者→合成者），"+
+    "主攻方向："+weak.q.name+"象限。\n34 题 · 约 6 分钟 · 生成你的发展档案与 90 天计划。";
+  const done=()=>toast("分享文案已复制");
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));
+  }else fallbackCopy(txt,done);
+}
+function fallbackCopy(txt,cb){
+  const ta=document.createElement("textarea");
+  ta.value=txt; ta.style.position="fixed"; ta.style.opacity="0";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); cb(); }catch(e){ toast("复制失败，请手动复制"); }
+  document.body.removeChild(ta);
+}
+
+/* ================= 其他 ================= */
+function restart(){
+  const ok=confirm("重新测评将清除当前作答记录，确定？");
+  if(!ok) return;
+  state={name:state.name,answers:{},idx:0,done:false};
+  save();
+  document.getElementById("nameInput").value=state.name||"";
+  show("s-cover"); renderCover();
+}
+document.addEventListener("keydown",e=>{
+  if(!document.getElementById("s-quiz").classList.contains("active")) return;
+  if(e.key>="1" && e.key<="5"){ selectOption(parseInt(e.key)); }
+  else if(e.key==="Enter" || e.key==="ArrowRight"){ if(document.getElementById("nextBtn").classList.contains("show")) nextQuestion(); }
+  else if(e.key==="ArrowLeft"){ goBack(); }
+});
+document.getElementById("cardModal").addEventListener("click",e=>{
+  if(e.target.id==="cardModal") closeCard();
+});
+
+/* ================= 初始化 ================= */
+loadState();
+renderCover();
+</script>
+</body>
+</html>
